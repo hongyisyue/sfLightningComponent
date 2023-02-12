@@ -6,7 +6,8 @@
             <label class="slds-form-element__label" for="combobox-id-1">{labelName}</label>
         </template>
 
-        <!-- Display the create new record modal -->
+        <!-- Create-new-record modal START -->
+        <!-- Hidden for now as we do not need it -->
         <div if:true={showModal}>
             <section if:true={showModal} role="dialog" tabindex="-1" aria-labelledby="modal-heading-01"
                 aria-modal="true" aria-describedby="modal-content-id-1" class="slds-modal slds-fade-in-open">
@@ -31,6 +32,7 @@
             </section>
             <div class="slds-backdrop slds-backdrop_open"></div>
         </div>
+        <!-- END -->
 
         <div class="slds-form-element__control">
             <div class="slds-combobox_container">
