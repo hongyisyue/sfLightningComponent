@@ -1,41 +1,63 @@
-<template> 
-    <lightning-card
-        title="Lead Finder"
-        icon-name="standard:record"
-    >
-        <div class="slds-var-m-around_small">
-            <p>Search Component</p>
-            <c-search-component
-                onlookup={handleLookup}
-                fields-to-create={fieldsToCreate}
-                create-record=true
-                parent-a-p-i-name="ParentId"
-                obj-name="Account"
-                display-ields="Name, Rating, AccountNumber"
-                fields = {fields}
-                show-label=true
-                label-name="Account Name"
-                data-index={index}
-                index={index}>
-            </c-search-component>
-        </div>
-        <div class="slds-var-m-around_small">
-            <p>Lookup Component With Pre Selcted </p>
-            <c-search-component
-                onlookup={handleLookup}
-                fields-to-create={fieldsToCreate}
-                create-record=false
-                data-index={index}
-                parent-a-p-i-name="ParentId"
-                obj-name="Account"
-                display-ields="Name, Rating, AccountNumber"
-                show-label=true
-                label-name="Account Name"
-                fields = {fields}
-                value-id="001sdf4424"
-                value-name="Salesforce.org"
-                index={index}>
-            </c-search-component>
-        </div>
+<template>
+    <lightning-card title="Lead Finder">
+        <lightning-card title="Current Record">
+            <!-- The selected oppotunity -->
+            <lightning-record-form
+                 object-api-name={oppoObj}
+                 record-id={recordId}
+                 fields={oppoFields}
+             >
+            </lightning-record-form>
+            <div>
+                Total hours needed:
+                <input
+                    type="number"
+                    onchange={handleInputChange}
+                    onkeyup={handleInputChange}
+                    onkeydown={handleInputChange}
+                />
+            </div>
+         </lightning-card>
+         
+         <lightning-card
+            title="Fitting Lead(s)"
+             icon-name="standard:record"
+         >
+             <div class="slds-var-m-around_small">
+                 <p>Search Component</p>
+                 <c-search-component
+                     onlookup={handleLookup}
+                     fields-to-create={fieldsToCreate}
+                     create-record=true
+                     parent-a-p-i-name="ParentId"
+                     obj-name="Account"
+                     display-ields="Name, Rating, AccountNumber"
+                     fields = {fields}
+                     show-label=true
+                     label-name="Account Name"
+                     data-index={index}
+                     index={index}>
+                 </c-search-component>
+             </div>
+             <div class="slds-var-m-around_small">
+                 <p>Lookup Component With Pre Selcted </p>
+                 <c-search-component
+                     onlookup={handleLookup}
+                     fields-to-create={fieldsToCreate}
+                     create-record=false
+                     data-index={index}
+                     parent-a-p-i-name="ParentId"
+                     obj-name="Account"
+                     display-ields="Name, Rating, AccountNumber"
+                     show-label=true
+                     label-name="Account Name"
+                     fields = {fields}
+                     value-id="001sdf4424"
+                     value-name="Salesforce.org"
+                     index={index}>
+                 </c-search-component>
+             </div>
+         </lightning-card>
+
     </lightning-card>
 </template>
