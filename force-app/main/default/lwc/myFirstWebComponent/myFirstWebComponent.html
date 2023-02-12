@@ -3,9 +3,9 @@
         <lightning-card title="Current Record">
             <!-- The selected oppotunity -->
             <lightning-record-form
-                 object-api-name={oppoObj}
+                 object-api-name={objName}
                  record-id={recordId}
-                 fields={oppoFields}
+                 fields={displayFields}
              >
             </lightning-record-form>
             <div>
@@ -19,7 +19,7 @@
             </div>
          </lightning-card>
          
-         <lightning-card
+         <!-- <lightning-card
             title="Fitting Lead(s)"
              icon-name="standard:record"
          >
@@ -57,7 +57,7 @@
                      index={index}>
                  </c-search-component>
              </div>
-         </lightning-card>
+         </lightning-card> -->
 
     </lightning-card>
 </template>
