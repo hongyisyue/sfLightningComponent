@@ -24,6 +24,11 @@ III. Use your custom Lightning Web Component in your environment
   4. Click on 'Edit Object', then find 'Lightning Record Pages' on the left, click on it, you should see a list of the page objects, click on any and click 'Edit'.
   5. Drag your Lightning component to the page and click 'Save' on the top right corner.
  
+## How to find the data fields of an record:
+  Under 'Setup' -> 'Object Manager' -> 'Fields & Relationships'
+  https://developer.salesforce.com/docs/atlas.en-us.api_asynch.meta/api_asynch/datafiles_field_names.htm
+ 
+ 
  
 ## Salesforce DX Project reads
 
