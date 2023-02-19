@@ -1,4 +1,32 @@
 public class SearchController {
+    /*
+    * @param objectName: the object type we will search in
+    * @param fields: A String of the fileds we wang to query. e.g. "Id, Name" 
+    * @param filters: A String of the filter we want to apply. e.g. "LoginTime > 2010-09-20T22:16:30.000Z AND LoginTime < 2010-09-21T22:16:30.000Z GROUP BY UserId"
+    */
+    @AuraEnabled
+    public static List<sObject> multiSearch(String objectName, List<String> fields, String filters){
+        String soql = 'SELECT ';
+        List<sObject> results;
+        // We need at least one filter to be able to search 
+        if(String.isNotBlank(filters) && String.isNotBlank(objectName)){
+            String query = 'SELECT Id, '+String.join(fields,',')+' FROM '+objectName+' WHERE ' + filters;
+            List<SObject> sobjList = Database.query( query );
+            results = sobjList;
+            // try {
+            // } catch (Exception e) {
+            //     throw new AuraHandledException(e.getMessage());
+            // }
+        }
+
+        // soql = soql + ' FROM ' + objectName;
+        // String filterString = ' WHERE ' + filters;
+        // soql = soql + filterString;
+        // sobjList = Database.query( soql );
+        // searchRecords.add(sobjList);
+        return results
+    }
+
     @AuraEnabled
     public static List<sObject> search(String objectName, List<String> fields, String searchTerm){
         String searchKeyword = searchTerm + '*';
