@@ -18,12 +18,6 @@ public class SearchController {
             //     throw new AuraHandledException(e.getMessage());
             // }
         }
-
-        // soql = soql + ' FROM ' + objectName;
-        // String filterString = ' WHERE ' + filters;
-        // soql = soql + filterString;
-        // sobjList = Database.query( soql );
-        // searchRecords.add(sobjList);
         return results
     }
 
