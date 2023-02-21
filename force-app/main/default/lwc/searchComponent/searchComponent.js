@@ -29,14 +29,20 @@ export default class SearchComponent extends LightningElement {
     @track error;
 
     searchTerm;
+    searchTerms;
     delayTimeout;
 
     searchRecords;
     selectedRecord;
     objectLabel;
     isLoading = false;
-    showButton = false;
-    showModal = false;
+    allowShowButton = false;
+    
+    
+    allowShowModal = false;
+    allowCreateNewRecord = false;
+    showModal = this.allowCreateNewRecord && this.allowShowModal;
+    showButton = this.allowShowButton && this.allowCreateNewRecord;
 
     field;
     field1;
@@ -99,10 +105,43 @@ export default class SearchComponent extends LightningElement {
 
     }
 
+    // Triggered when user clicks on search button. Search base on multiple fields
+    handleMultiSearch() {
+        window.clearTimeout(this.delayTimeout);
+
+        this.delayTimeout = setTimeout(() => {
+            // calling the search function from Apex class
+            search({
+                objectName: this.objName,
+                fields: this.fields,
+                searchTerms: this.searchKeys
+            })
+                .then(result => {
+                    let stringResult = JSON.stringify(result);
+                    let allResult = JSON.parse(stringResult);
+                    allResult.forEach(record => {
+                        record.FIELD1 = record[this.field];
+                        record.FIELD2 = record[this.field1];
+                        if (this.field2) {
+                            record.FIELD3 = record[this.field2];
+                        } else {
+                            record.FIELD3 = '';
+                        }
+                    });
+                    this.searchRecords = allResult;
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                })
+                .finally(() => {
+                    this.allowShowButton = this.createRecord;
+                });
+        }, DELAY);
+    }
+
     handleInputChange(event) {
         window.clearTimeout(this.delayTimeout);
         const searchKey = event.target.value;
-        //this.isLoading = true;
         this.delayTimeout = setTimeout(() => {
             //if(searchKey.length >= 2){
             search({
@@ -128,7 +167,7 @@ export default class SearchComponent extends LightningElement {
                     console.error('Error:', error);
                 })
                 .finally(() => {
-                    this.showButton = this.createRecord;
+                    this.allowShowButton = this.createRecord;
                 });
             //}
         }, DELAY);
@@ -161,7 +200,7 @@ export default class SearchComponent extends LightningElement {
     handleClose() {
         this.selectedRecord = undefined;
         this.searchRecords = undefined;
-        this.showButton = false;
+        this.allowShowButton = false;
         const selectedEvent = new CustomEvent('lookup', {
             bubbles: true,
             composed: true,
@@ -189,17 +228,17 @@ export default class SearchComponent extends LightningElement {
 
     handleNewRecord = event => {
         event.preventDefault();
-        this.showModal = true;
+        this.allowShowModal = true;
     }
 
     handleCancel = event => {
         event.preventDefault();
-        this.showModal = false;
+        this.allowShowModal = false;
     }
 
     handleSuccess = event => {
         event.preventDefault();
-        this.showModal = false;
+        this.allowShowModal = false;
         let recordId = event.detail.id;
         this.hanleCreatedRecord(recordId);
     }
@@ -237,7 +276,7 @@ export default class SearchComponent extends LightningElement {
                 console.error('Error: \n ', error);
             })
             .finally(() => {
-                this.showModal = false;
+                this.allowShowModal = false;
             });
     }
 }
