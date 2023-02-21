@@ -28,7 +28,16 @@ III. Use your custom Lightning Web Component in your environment
   Under 'Setup' -> 'Object Manager' -> 'Fields & Relationships'
   https://developer.salesforce.com/docs/atlas.en-us.api_asynch.meta/api_asynch/datafiles_field_names.htm
  
- 
+## About Apex class:
+  Besides the fact that the Apex classes are written Java. Another important part is that it contains the query. There are 2 types of querys that are used in Salesforce: SOQL & SOSL. In short, SOQL is more like SQL and so for more specific querying. SOSL is more like a non-tech 
+  # SOQL:
+  Examples:
+https://developer.salesforce.com/docs/atlas.en-us.224.0.soql_sosl.meta/soql_sosl/sforce_api_calls_soql.htm?_ga=2.55408171.1290030008.1676163267-1099802661.1670269690
+
+  Relationship keywords:
+  https://developer.salesforce.com/docs/atlas.en-us.soql_sosl.meta/soql_sosl/sforce_api_calls_soql_select_examples.htm
+  # SOSL:
+  https://developer.salesforce.com/docs/atlas.en-us.224.0.soql_sosl.meta/soql_sosl/sforce_api_calls_sosl_find.htm?_ga=2.102726913.1290030008.1676163267-1099802661.1670269690
  
 ## Salesforce DX Project reads
 
