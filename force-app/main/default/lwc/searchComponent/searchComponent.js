@@ -29,7 +29,8 @@ export default class SearchComponent extends LightningElement {
     @track error;
 
     searchTerm;
-    searchTerms;
+    searchHour;
+
     delayTimeout;
 
     searchRecords;
@@ -105,6 +106,17 @@ export default class SearchComponent extends LightningElement {
 
     }
 
+    testInputChange(event) {
+        const fieldName = event.target.label;
+        this[fieldName] = event.target.value;
+        console.log(event.target.label);
+        console.log(this[fieldName]);
+    }
+
+    testInput() {
+        console.log(this[searchHour]);
+        window.alert(this[searchHour]);
+    }
     // Triggered when user clicks on search button. Search base on multiple fields
     handleMultiSearch() {
         window.clearTimeout(this.delayTimeout);

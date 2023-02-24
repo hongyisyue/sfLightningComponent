@@ -41,30 +41,20 @@
                     <template if:false={selectedRecord}>
                         <div class="slds-combobox__form-element slds-input-has-icon slds-input-has-icon_right"
                             role="none">
-
-                            <input 
-                                type="text" 
-                                onfocus={handleInputChange}
+                            <!-- NAME input for searching -->
+                            <!-- onfocus={handleInputChange}
                                 onchange={handleInputChange}
                                 onkeyup={handleInputChange}
-                                onkeydown={handleInputChange}
-                                class="slds-input slds-combobox__input"
-                                id="combobox-id-1"
-                                aria-autocomplete="list"
-                                aria-controls="listbox-id-1"
-                                autocomplete="off"
-                                role="textbox"
-                                placeholder={placeholder} 
-                            />
-                            <span
-                                class="slds-icon_container slds-icon-utility-search slds-input__icon slds-input__icon_right">
-                                <svg class="slds-icon slds-icon slds-icon_x-small slds-icon-text-default"
-                                    aria-hidden="true">
-                                    <use
-                                        xlink:href="/apexpages/slds/latest/assets/icons/utility-sprite/svg/symbols.svg#search">
-                                    </use>
-                                </svg>
-                            </span>
+                                onkeydown={handleInputChange} -->
+                            <input type="text" class="slds-input slds-combobox__input" id="combobox-id-1"
+                                aria-autocomplete="list" aria-controls="listbox-id-1" autocomplete="off" role="textbox"
+                                placeholder={placeholder} />
+
+                            <!-- HOUR input for searching -->
+                            <lightning-input label="searchHour" value={searchHour} onchange={testInputChange}></lightning-input>
+
+                            <lightning-button variant="success" label="Search" onclick={testInput} class="slds-m-left_x-small">
+                            </lightning-button>
                         </div>
                         <div style="background: white;" id="listbox-id-1"
                             class="slds-dropdown_length-with-icon-7 slds-dropdown_fluid" role="listbox">
