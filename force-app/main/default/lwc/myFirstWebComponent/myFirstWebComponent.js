@@ -67,9 +67,9 @@ export default class MyFirstWebComponent extends LightningElement {
     ICON_URL_CLOSE = '/apexpages/slds/latest/assets/icons/utility-sprite/svg/symbols.svg#close';
 
     // The input change will affect the look up for the related record
-    handleInputChange(event) {
+    // handleInputChange(event) {
         
-    }
+    // }
 
     connectedCallback() {
 

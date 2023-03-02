@@ -1,5 +1,6 @@
 import { LightningElement, api, track, wire } from 'lwc';
 import search from '@salesforce/apex/SearchController.search';
+import multiSearch from '@salesforce/apex/SearchController.multiSearch';
 import getRecentlyCreatedRecord from '@salesforce/apex/SearchController.getRecentlyCreatedRecord';
 const DELAY = 10;
 import { } from 'lightning/navigation'
@@ -28,8 +29,11 @@ export default class SearchComponent extends LightningElement {
 
     @track error;
 
+    // Fields for single-field search
     searchTerm;
+    // Fields for multi-field search
     searchHour;
+    searchBudget;
 
     delayTimeout;
 
@@ -106,49 +110,44 @@ export default class SearchComponent extends LightningElement {
 
     }
 
-    testInputChange(event) {
+    updateInputChange(event) {
         const fieldName = event.target.label;
         this[fieldName] = event.target.value;
-        console.log(event.target.label);
-        console.log(this[fieldName]);
     }
 
-    testInput() {
-        console.log(this[searchHour]);
-        window.alert(this[searchHour]);
-    }
     // Triggered when user clicks on search button. Search base on multiple fields
-    handleMultiSearch() {
+    handleMultiSearch(event) {
+        console.log('Start multi search');
         window.clearTimeout(this.delayTimeout);
+        const rate = this['searchBudget']/this['searchHour'];
+        const filterString = 'Remaining_Hours_per_Week__c >= ' + this['searchHour'].toString() + ' AND ' + 'Max_Hourly_Rate__c <= ' + rate.toString();
+        console.log(filterString);
+        // calling the search function from Apex class
+        multiSearch({
+            objectName: this.objName,
+            fields: 'Id, Name, Max_Hourly_Rate__c, Remaining_Hours_per_Week__c',
+            filters: filterString
+        })
+            .then(result => {
+                console.log(result);
 
-        this.delayTimeout = setTimeout(() => {
-            // calling the search function from Apex class
-            search({
-                objectName: this.objName,
-                fields: this.fields,
-                searchTerms: this.searchKeys
-            })
-                .then(result => {
-                    let stringResult = JSON.stringify(result);
-                    let allResult = JSON.parse(stringResult);
-                    allResult.forEach(record => {
-                        record.FIELD1 = record[this.field];
-                        record.FIELD2 = record[this.field1];
-                        if (this.field2) {
-                            record.FIELD3 = record[this.field2];
-                        } else {
-                            record.FIELD3 = '';
-                        }
-                    });
-                    this.searchRecords = allResult;
-                })
-                .catch(error => {
-                    console.error('Error:', error);
-                })
-                .finally(() => {
-                    this.allowShowButton = this.createRecord;
+                let stringResult = JSON.stringify(result);
+                let allResult = JSON.parse(stringResult);
+                allResult.forEach(record => {
+                    record.FIELD1 = record['Name'];
+                    record.FIELD2 = record['Max_Hourly_Rate__c'];
+                    record.FIELD3 = record['Remaining_Hours_per_Week__c'];
                 });
-        }, DELAY);
+                this.searchRecords = allResult;
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            })
+            .finally(() => {
+                this.allowShowButton = this.createRecord;
+            });
+        // this.delayTimeout = setTimeout(() => {
+        // }, DELAY);
     }
 
     handleInputChange(event) {
@@ -162,6 +161,7 @@ export default class SearchComponent extends LightningElement {
                 searchTerm: searchKey
             })
                 .then(result => {
+                    console.log(result);
                     let stringResult = JSON.stringify(result);
                     let allResult = JSON.parse(stringResult);
                     allResult.forEach(record => {

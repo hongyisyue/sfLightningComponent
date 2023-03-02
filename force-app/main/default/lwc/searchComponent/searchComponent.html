@@ -41,19 +41,24 @@
                     <template if:false={selectedRecord}>
                         <div class="slds-combobox__form-element slds-input-has-icon slds-input-has-icon_right"
                             role="none">
+                            <input type="text" onfocus={handleInputChange} onchange={handleInputChange}
+                                onkeyup={handleInputChange} onkeydown={handleInputChange}
+                                class="slds-input slds-combobox__input" id="combobox-id-1" aria-autocomplete="list"
+                                aria-controls="listbox-id-1" autocomplete="off" role="textbox"
+                                placeholder={placeholder} />
                             <!-- NAME input for searching -->
                             <!-- onfocus={handleInputChange}
                                 onchange={handleInputChange}
                                 onkeyup={handleInputChange}
                                 onkeydown={handleInputChange} -->
-                            <input type="text" class="slds-input slds-combobox__input" id="combobox-id-1"
-                                aria-autocomplete="list" aria-controls="listbox-id-1" autocomplete="off" role="textbox"
-                                placeholder={placeholder} />
 
                             <!-- HOUR input for searching -->
-                            <lightning-input label="searchHour" value={searchHour} onchange={testInputChange}></lightning-input>
+                            <lightning-input label="searchHour" type="number"
+                                onchange={updateInputChange}></lightning-input>
+                            <lightning-input label="searchBudget" type="number" formatter="currency" step=".01"
+                                onchange={updateInputChange}></lightning-input>
 
-                            <lightning-button variant="success" label="Search" onclick={testInput} class="slds-m-left_x-small">
+                            <lightning-button label="Search" onclick={handleMultiSearch} class="slds-m-left_x-small">
                             </lightning-button>
                         </div>
                         <div style="background: white;" id="listbox-id-1"
