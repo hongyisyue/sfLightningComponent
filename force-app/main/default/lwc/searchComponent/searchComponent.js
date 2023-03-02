@@ -135,8 +135,8 @@ export default class SearchComponent extends LightningElement {
                 let allResult = JSON.parse(stringResult);
                 allResult.forEach(record => {
                     record.FIELD1 = record['Name'];
-                    record.FIELD2 = record['Max_Hourly_Rate__c'];
-                    record.FIELD3 = record['Remaining_Hours_per_Week__c'];
+                    record.FIELD2 = ('$' + record['Max_Hourly_Rate__c']).substring(0,7);
+                    record.FIELD3 = record['Remaining_Hours_per_Week__c'] +'hr';
                 });
                 this.searchRecords = allResult;
             })
