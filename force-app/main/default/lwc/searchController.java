@@ -5,18 +5,13 @@ public class SearchController {
     * @param filters: A String of the filter we want to apply. e.g. "LoginTime > 2010-09-20T22:16:30.000Z AND LoginTime < 2010-09-21T22:16:30.000Z GROUP BY UserId"
     */
     @AuraEnabled
-    public static List<sObject> multiSearch(String objectName, List<String> fields, String filters){
-        String soql = 'SELECT ';
+    public static List<sObject> multiSearch(String objectName, String fields, String filters){
         List<sObject> results;
         // We need at least one filter to be able to search 
         if(String.isNotBlank(filters) && String.isNotBlank(objectName)){
-            String query = 'SELECT Id, '+String.join(fields,',')+' FROM '+objectName+' WHERE ' + filters;
+            String query = 'SELECT '+fields+' FROM '+objectName+' WHERE ' + filters;
             List<SObject> sobjList = Database.query( query );
             results = sobjList;
-            // try {
-            // } catch (Exception e) {
-            //     throw new AuraHandledException(e.getMessage());
-            // }
         }
         return results
     }

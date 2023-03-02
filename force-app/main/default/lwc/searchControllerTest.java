@@ -11,9 +11,10 @@ public with sharing class SearchControllerTest {
         searchResultsIds.add(accuntRecord.Id);
         // Query fields
         String objectName = 'Account';
-        List<String> fields = new List<String>();
-        fields.add('Name');
-        fields.add('Id');
+        // List<String> fields = new List<String>();
+        // fields.add('Name');
+        // fields.add('Id');
+        String fields = 'Id, Name';
         String filters = 'Name LIKE \''+recordName+'\'%';
 
         Test.startTest();
