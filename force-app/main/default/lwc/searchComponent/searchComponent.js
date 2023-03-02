@@ -32,8 +32,8 @@ export default class SearchComponent extends LightningElement {
     // Fields for single-field search
     searchTerm;
     // Fields for multi-field search
-    searchHour;
-    searchBudget;
+    Search_Hour;
+    Search_Budget;
 
     delayTimeout;
 
@@ -119,8 +119,8 @@ export default class SearchComponent extends LightningElement {
     handleMultiSearch(event) {
         console.log('Start multi search');
         window.clearTimeout(this.delayTimeout);
-        const rate = this['searchBudget']/this['searchHour'];
-        const filterString = 'Remaining_Hours_per_Week__c >= ' + this['searchHour'].toString() + ' AND ' + 'Max_Hourly_Rate__c <= ' + rate.toString();
+        const rate = this['Search_Budget']/this['Search_Hour'];
+        const filterString = 'Remaining_Hours_per_Week__c >= ' + this['Search_Hour'].toString() + ' AND ' + 'Max_Hourly_Rate__c <= ' + rate.toString();
         console.log(filterString);
         // calling the search function from Apex class
         multiSearch({
