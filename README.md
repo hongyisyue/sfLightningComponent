@@ -38,6 +38,9 @@ https://developer.salesforce.com/docs/atlas.en-us.224.0.soql_sosl.meta/soql_sosl
   https://developer.salesforce.com/docs/atlas.en-us.soql_sosl.meta/soql_sosl/sforce_api_calls_soql_select_examples.htm
   # SOSL:
   https://developer.salesforce.com/docs/atlas.en-us.224.0.soql_sosl.meta/soql_sosl/sforce_api_calls_sosl_find.htm?_ga=2.102726913.1290030008.1676163267-1099802661.1670269690
+  
+  # Tool(s) for quick test your query:
+  https://workbench.developerforce.com/query.php?qrjb=eyJRQl9vYmplY3Rfc2VsIjoiIiwiUUJfZmllbGRfc2VsIjpudWxsLCJRQl9vcmRlcmJ5X2ZpZWxkIjpudWxsLCJRQl9vcmRlcmJ5X3NvcnQiOiJBU0MiLCJRQl9udWxscyI6IkZJUlNUIiwiUUJfbGltaXRfdHh0IjpudWxsLCJtYXRyaXhfcm93cyI6bnVsbCwibWF0cml4X2NvbHMiOm51bGwsIm51bUZpbHRlcnMiOiIxIiwic29xbF9xdWVyeSI6IlNFTEVDVCBJZCwgTmFtZSBGUk9NIENvbnRhY3QgV0hFUkUgUmVtYWluaW5nX0hvdXJzX3Blcl9XZWVrX19jID49IDEwIEFORCBNYXhfSG91cmx5X1JhdGVfX2MgPD0gMjAwIn0%3D#qr
  
 ## Salesforce DX Project reads
 
