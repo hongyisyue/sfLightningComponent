@@ -116,10 +116,9 @@ export default class SearchComponent extends LightningElement {
         
     }
 
+    // Fetch all the active credentials
     updateCredential() {
         getAllActiveCredential().then(result => {
-            console.log(result);
-    
             let stringResult = JSON.stringify(result);
             let allResult = JSON.parse(stringResult);
             allResult.forEach(record => {
@@ -140,7 +139,6 @@ export default class SearchComponent extends LightningElement {
 
     handleCredSelect(event) {
         this.selectedCred = event.detail.value;
-        console.log(this.selectedCred);
     }
 
     updateInputChange(event) {
