@@ -151,7 +151,10 @@ export default class SearchComponent extends LightningElement {
         console.log('Start multi search');
         window.clearTimeout(this.delayTimeout);
         const rate = this['Search_Budget']/this['Search_Hour'];
-        const filterString = 'Remaining_Hours_per_Week__c >= ' + this['Search_Hour'].toString() + ' AND ' + 'Max_Hourly_Rate__c <= ' + rate.toString();
+        const filterString = 
+            'Remaining_Hours_per_Week__c >= ' + this['Search_Hour'].toString() +
+            ' AND Max_Hourly_Rate__c <= ' + rate.toString() +
+            ' AND Active_Credentials__c INCLUDES(\'' + this.selectedCred + '\')';
         console.log(filterString);
         // calling the search function from Apex class
         multiSearch({
