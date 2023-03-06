@@ -46,4 +46,13 @@ public class SearchController {
         }
         return createdRecord;
     }
+
+    @AuraEnabled
+    public static List<sObject> getAllActiveCredential(){
+        List<sObject> results;
+        String query = 'SELECT Credential_Name__c, Credential_Type__c, Status__c FROM Credential__c WHERE Expiry_Date__c > TODAY';
+        List<SObject> sobjList = Database.query( query );
+        results = sobjList;
+        return results;
+    }
 }
