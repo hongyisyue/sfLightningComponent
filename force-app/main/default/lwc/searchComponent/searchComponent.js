@@ -1,6 +1,7 @@
 import { LightningElement, api, track, wire } from 'lwc';
 import search from '@salesforce/apex/SearchController.search';
 import multiSearch from '@salesforce/apex/SearchController.multiSearch';
+import getAllActiveCredential from '@salesforce/apex/SearchController.getAllActiveCredential';
 import getRecentlyCreatedRecord from '@salesforce/apex/SearchController.getRecentlyCreatedRecord';
 const DELAY = 10;
 import { } from 'lightning/navigation'
@@ -58,7 +59,12 @@ export default class SearchComponent extends LightningElement {
     ICON_URL_NEW = '/apexpages/slds/latest/assets/icons/utility-sprite/svg/symbols.svg#add';
     ICON_URL_CLOSE = '/apexpages/slds/latest/assets/icons/utility-sprite/svg/symbols.svg#close';
 
+    // Active Credentials;
+    creds;
+    selectedCred = 'Select a Credential';
+
     connectedCallback() {
+        this.updateCredential();
 
         let icons = this.iconName.split(':');
         this.ICON_URL = this.ICON_URL.replace('{0}', icons[0]);
@@ -98,7 +104,7 @@ export default class SearchComponent extends LightningElement {
                 combinedFields.push(field.trim());
             }
         });
-
+        
         this.fields = combinedFields.concat(JSON.parse(JSON.stringify(this.fields)));
 
         if (this.valueId && this.valueName) {
@@ -107,14 +113,41 @@ export default class SearchComponent extends LightningElement {
                 recordId: this.valueId
             }
         }
+        
+    }
 
+    updateCredential() {
+        getAllActiveCredential().then(result => {
+            console.log(result);
+    
+            let stringResult = JSON.stringify(result);
+            let allResult = JSON.parse(stringResult);
+            allResult.forEach(record => {
+                record.FIELD1 = record['Credential_Name__c'];
+                record.FIELD2 = record['Credential_Type__c'];
+                record.label = record['Credential_Name__c'];
+                record.value = record['Credential_Name__c'];
+            });
+            this.creds = allResult;
+        })
+        .catch(error => {
+            console.error('Error:', error);
+        })
+        .finally(() => {
+            this.allowShowButton = this.createRecord;
+        });
+    }
+
+    handleCredSelect(event) {
+        this.selectedCred = event.detail.value;
+        console.log(this.selectedCred);
     }
 
     updateInputChange(event) {
         const fieldName = event.target.label;
         this[fieldName] = event.target.value;
     }
-
+    
     // Triggered when user clicks on search button. Search base on multiple fields
     handleMultiSearch(event) {
         console.log('Start multi search');
@@ -125,7 +158,7 @@ export default class SearchComponent extends LightningElement {
         // calling the search function from Apex class
         multiSearch({
             objectName: this.objName,
-            fields: 'Id, Name, Max_Hourly_Rate__c, Remaining_Hours_per_Week__c',
+            fields: 'Id, Name, Max_Hourly_Rate__c, Remaining_Hours_per_Week__c,	Active_Credentials__c',
             filters: filterString
         })
             .then(result => {
@@ -137,6 +170,7 @@ export default class SearchComponent extends LightningElement {
                     record.FIELD1 = record['Name'];
                     record.FIELD2 = ('$' + record['Max_Hourly_Rate__c']).substring(0,7);
                     record.FIELD3 = record['Remaining_Hours_per_Week__c'] +'hr';
+                    record.FIELD4 = record['Active_Credentials__c'];
                 });
                 this.searchRecords = allResult;
             })

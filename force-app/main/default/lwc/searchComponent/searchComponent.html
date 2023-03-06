@@ -58,6 +58,26 @@
                                 onchange={updateInputChange}></lightning-input>
                             <lightning-input label="Search_Budget" type="number" formatter="currency" step=".01" placeholder="School Budget"
                                 onchange={updateInputChange}></lightning-input>
+
+                            <div style="margin-top: 10px;">
+                                Search_Credential
+                            </div>
+                            <lightning-button-menu
+                                alternative-text="Action"
+                                onselect={handleCredSelect}
+                                title="Search_Credential"
+                                label={selectedCred}
+                            >
+                                <template for:each={creds} for:item="cred">
+                                    <lightning-menu-item
+                                        label={cred.label}
+                                        value={cred.value}
+                                        key={cred.label}
+                                    >
+                                    </lightning-menu-item>
+                                </template>
+                            </lightning-button-menu>
+
                             <div style="margin-top: 10px;">
                                 <lightning-button style="margin-left: 0;" label="Search" onclick={handleMultiSearch} class="slds-m-left_x-small">
                                 </lightning-button>
