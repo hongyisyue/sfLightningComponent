@@ -54,13 +54,13 @@
                                 onkeydown={handleInputChange} -->
 
                             <!-- HOUR input for searching -->
-                            <lightning-input label="Search_Hour" type="number" placeholder="Therapy Hours Needed"
+                            <lightning-input name="searchHour" label="Weekly Hour Needed:" type="number" placeholder="Therapy Hours Needed"
                                 onchange={updateInputChange}></lightning-input>
-                            <lightning-input label="Search_Budget" type="number" formatter="currency" step=".01" placeholder="School Budget"
+                            <lightning-input name="searchHourlyRate" label="Hourly Rate Limit:" type="number" formatter="currency" step=".01" placeholder="School Budget"
                                 onchange={updateInputChange}></lightning-input>
 
                             <div style="margin-top: 10px;">
-                                Search_Credential
+                                Credential Needed:
                             </div>
                             <lightning-button-menu
                                 alternative-text="Action"
