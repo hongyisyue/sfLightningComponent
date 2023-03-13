@@ -118,17 +118,22 @@ export default class SearchComponent extends LightningElement {
 
     // Fetch all the active credentials
     updateCredential() {
+        const countSet = new Set();
+        const filteredCreds = [];
         getAllActiveCredential().then(result => {
             let stringResult = JSON.stringify(result);
             let allResult = JSON.parse(stringResult);
             allResult.forEach(record => {
-                record.FIELD1 = record['Credential_Name__c'];
-                record.FIELD2 = record['Credential_Type__c'];
                 record.label = record['Credential_Name__c'];
                 record.value = record['Credential_Name__c'];
+
+                if (!countSet.has(record.label)) {
+                    filteredCreds.push(record);
+                    countSet.add(record.label);
+                }
             });
-            this.creds = allResult;
-            this.creds.sort((a,b) => a.label.localeCompare(b.label));
+            // this.creds.sort((a,b) => a.label.localeCompare(b.label));
+            this.creds = filteredCreds;
             console.log(this.creds);
         })
         .catch(error => {
