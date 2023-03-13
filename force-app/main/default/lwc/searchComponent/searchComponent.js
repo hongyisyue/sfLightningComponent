@@ -128,6 +128,8 @@ export default class SearchComponent extends LightningElement {
                 record.value = record['Credential_Name__c'];
             });
             this.creds = allResult;
+            this.creds.sort((a,b) => a.label.localeCompare(b.label));
+            console.log(this.creds);
         })
         .catch(error => {
             console.error('Error:', error);
