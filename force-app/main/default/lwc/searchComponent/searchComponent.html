@@ -63,18 +63,22 @@
                                 Credential Needed:
                             </div>
                             <lightning-button-menu
-                                alternative-text="Action"
                                 onselect={handleCredSelect}
                                 title="Search_Credential"
                                 label={selectedCred}
                             >
                                 <template for:each={creds} for:item="cred">
-                                    <lightning-menu-item
-                                        label={cred.label}
-                                        value={cred.value}
-                                        key={cred.label}
-                                    >
-                                    </lightning-menu-item>
+                                    <template if:true={cred.isSubheader}>
+                                        <lightning-menu-subheader label={cred.label} key={cred.label}></lightning-menu-subheader>
+                                    </template>
+                                    <template if:false={cred.isSubheader}>
+                                        <lightning-menu-item
+                                            label={cred.label}
+                                            value={cred.value}
+                                            key={cred.label}
+                                        >
+                                        </lightning-menu-item>
+                                    </template>
                                 </template>
                             </lightning-button-menu>
 

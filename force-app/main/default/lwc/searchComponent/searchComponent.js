@@ -60,7 +60,10 @@ export default class SearchComponent extends LightningElement {
     ICON_URL_CLOSE = '/apexpages/slds/latest/assets/icons/utility-sprite/svg/symbols.svg#close';
 
     // Active Credentials;
+    credTypes;
+    credsMap = {};
     creds;
+
     selectedCred = 'Select a Credential';
 
     connectedCallback() {
@@ -119,22 +122,51 @@ export default class SearchComponent extends LightningElement {
     // Fetch all the active credentials
     updateCredential() {
         const countSet = new Set();
-        const filteredCreds = [];
+        let filteredCreds = [];
+        this.credTypes = new Set();
+
         getAllActiveCredential().then(result => {
             let stringResult = JSON.stringify(result);
             let allResult = JSON.parse(stringResult);
             allResult.forEach(record => {
                 record.label = record['Credential_Name__c'];
-                record.value = record['Credential_Name__c'];
+                record.type = record['Credential_Type__c'];
 
                 if (!countSet.has(record.label)) {
                     filteredCreds.push(record);
                     countSet.add(record.label);
                 }
             });
+
+            filteredCreds.forEach(record => {
+                if (this.credTypes.has(record.type)) {
+                    this.credsMap[record.type].push(record);
+                } else {
+                    this.credTypes.add(record.type);
+                    this.credsMap[record.type] = [record];
+                }
+            });
             // this.creds.sort((a,b) => a.label.localeCompare(b.label));
+            console.log(this.credTypes);
+            console.log(this.credsMap);
+            
+            filteredCreds = [];
+            for (const key in this.credsMap) {
+                filteredCreds.push({
+                    label: key,
+                    isSubheader: true
+                });
+                if (this.credsMap[key] && this.credsMap[key].length > 0) {
+                    for (const cred of this.credsMap[key]) {
+                        filteredCreds.push({
+                            label: cred.label,
+                            value: cred.label,
+                            isSubheader: false
+                        });
+                    }
+                }
+            }
             this.creds = filteredCreds;
-            console.log(this.creds);
         })
         .catch(error => {
             console.error('Error:', error);
