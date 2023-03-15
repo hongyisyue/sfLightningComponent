@@ -2,12 +2,7 @@ import { api, LightningElement,track} from 'lwc';
 import search from '@salesforce/apex/SearchController.search';
 import getRecentlyCreatedRecord from '@salesforce/apex/SearchController.getRecentlyCreatedRecord';
 const DELAY = 10;
-import { } from 'lightning/navigation'
-
-// Oppurtunity objects
-// import OPPO_OBJECT from '@salesforce/schema/Opportunity';
-// import OPPO_NAME from '@salesforce/schema/Opportunity.Name';
-// import OPPO_AMOUNT from '@salesforce/schema/Opportunity.Amount';
+import { } from 'lightning/navigation';
 
 export default class MyFirstWebComponent extends LightningElement {
 
