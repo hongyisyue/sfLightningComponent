@@ -16,7 +16,7 @@ export default class MyFirstWebComponent extends LightningElement {
         'CurrencyIsoCode',
         'School_Year__c',
         'CloseDate'
-    ]
+    ];
 
     // Fields for searching component
     @api valueId;
@@ -113,145 +113,11 @@ export default class MyFirstWebComponent extends LightningElement {
 
     }
 
-    handleInputChange(event) {
-        window.clearTimeout(this.delayTimeout);
-        const searchKey = event.target.value;
-        //this.isLoading = true;
-        this.delayTimeout = setTimeout(() => {
-            //if(searchKey.length >= 2){
-            search({
-                objectName: this.objName,
-                fields: this.fields,
-                searchTerm: searchKey
-            })
-                .then(result => {
-                    let stringResult = JSON.stringify(result);
-                    let allResult = JSON.parse(stringResult);
-                    allResult.forEach(record => {
-                        record.FIELD1 = record[this.field];
-                        record.FIELD2 = record[this.field1];
-                        if (this.field2) {
-                            record.FIELD3 = record[this.field2];
-                        } else {
-                            record.FIELD3 = '';
-                        }
-                    });
-                    this.searchRecords = allResult;
-                })
-                .catch(error => {
-                    console.error('Error:', error);
-                })
-                .finally(() => {
-                    this.showButton = this.createRecord;
-                });
-            //}
-        }, DELAY);
-    }
-
-    handleSelect(event) {
-
-        let recordId = event.currentTarget.dataset.recordId;
-        let selectRecord = this.searchRecords.find((item) => {
-            return item.Id === recordId;
-        });
-        this.selectedRecord = selectRecord;
-        const selectedEvent = new CustomEvent('lookup', {
-            bubbles: true,
-            composed: true,
-            cancelable: true,
-            detail: {
-                data: {
-                    record: selectRecord,
-                    recordId: recordId,
-                    currentRecordId: this.currentRecordId,
-                    parentAPIName: this.parentAPIName,
-                    index: this.index
-                }
-            }
-        });
-        this.dispatchEvent(selectedEvent);
-    }
-
-    handleClose() {
-        this.selectedRecord = undefined;
-        this.searchRecords = undefined;
-        this.showButton = false;
-        const selectedEvent = new CustomEvent('lookup', {
-            bubbles: true,
-            composed: true,
-            cancelable: true,
-            detail: {
-                data: {
-                    record: undefined,
-                    recordId: undefined,
-                    currentRecordId: this.currentRecordId,
-                    parentAPIName: this.parentAPIName,
-                    index: this.index
-                }
-            }
-        });
-        this.dispatchEvent(selectedEvent);
-    }
-
     titleCase(string) {
         var sentence = string.toLowerCase().split(" ");
         for (var i = 0; i < sentence.length; i++) {
             sentence[i] = sentence[i][0].toUpperCase() + sentence[i].slice(1);
         }
         return sentence;
-    }
-
-    handleNewRecord = event => {
-        event.preventDefault();
-        this.showModal = true;
-    }
-
-    handleCancel = event => {
-        event.preventDefault();
-        this.showModal = false;
-    }
-
-    handleSuccess = event => {
-        event.preventDefault();
-        this.showModal = false;
-        let recordId = event.detail.id;
-        this.hanleCreatedRecord(recordId);
-    }
-
-    hanleCreatedRecord = (recordId) => {
-        getRecentlyCreatedRecord({
-            recordId: recordId,
-            fields: this.fields,
-            objectName: this.objName
-        })
-            .then(result => {
-                if (result) {
-                    this.selectedRecord = {
-                        FIELD1: result[this.field],
-                        Id: recordId
-                    };
-                    const selectedEvent = new CustomEvent('lookup', {
-                        bubbles: true,
-                        composed: true,
-                        cancelable: true,
-                        detail: {
-                            data: {
-                                record: this.selectedRecord,
-                                recordId: recordId,
-                                currentRecordId: this.currentRecordId,
-                                parentAPIName: this.parentAPIName,
-                                index: this.index
-                            }
-                        }
-                    });
-                    this.dispatchEvent(selectedEvent);
-                }
-            })
-            .catch(error => {
-                console.error('Error: \n ', error);
-            })
-            .finally(() => {
-                this.showModal = false;
-            });
     }
 }

@@ -266,6 +266,7 @@ export default class SearchComponent extends LightningElement {
             return item.Id === recordId;
         });
         this.selectedRecord = selectRecord;
+
         const selectedEvent = new CustomEvent('lookup', {
             bubbles: true,
             composed: true,
