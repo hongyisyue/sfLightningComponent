@@ -210,7 +210,7 @@ export default class SearchComponent extends LightningElement {
                 allResult.forEach(record => {
                     record.FIELD1 = record['Name'];
                     record.FIELD2 = ('$' + record['Max_Hourly_Rate__c']).substring(0,7);
-                    record.FIELD3 = record['Remaining_Hours_per_Week__c'] +'hr';
+                    record.FIELD3 = record['Remaining_Hours_per_Week__c'] +'hr remain';
                     record.FIELD4 = record['Active_Credentials__c'];
                 });
                 this.multiSearchRecords = allResult;
