@@ -41,8 +41,9 @@
                     <template if:false={selectedRecord}>
                         <div class="slds-combobox__form-element slds-input-has-icon slds-input-has-icon_right"
                             role="none">
-                            Individual Search by Name
-                            <input 
+                            <h2><b>Search by Name</b></h2>
+                            <input
+                                style="margin-top: 10px;"
                                 type="text"
                                 onfocus={handleInputChange}
                                 onchange={handleInputChange}
@@ -105,6 +106,7 @@
                                 onkeydown={handleInputChange} -->
 
                             <!-- HOUR input for searching -->
+                            <h2><b>Search by Fields</b></h2>
                             <lightning-input name="searchHour" label="Weekly Hour Needed:" type="number" placeholder="Therapy Hours Needed"
                                 onchange={updateInputChange}></lightning-input>
                             <lightning-input name="searchHourlyRate" label="Hourly Rate Limit:" type="number" formatter="currency" step=".01" placeholder="School Budget"
