@@ -1,68 +1,172 @@
 <template>
     <lightning-spinner if:true={isLoading} alternative-text="Loading" size="small">
     </lightning-spinner>
-    <div class="slds-form-element" style="padding-left: 10px; padding-right: 10px;">
-        <template if:true={showLabel}>
-            <label class="slds-form-element__label" for="combobox-id-1">{labelName}</label>
-        </template>
-
-        <!-- Create-new-record modal START -->
-        <!-- Hidden for now as we do not need it -->
-        <div if:true={showModal}>
-            <section if:true={showModal} role="dialog" tabindex="-1" aria-labelledby="modal-heading-01"
-                aria-modal="true" aria-describedby="modal-content-id-1" class="slds-modal slds-fade-in-open">
-                <div class="slds-modal__container">
-                    <header class="slds-modal__header">
-                        <button onclick={handleCancel}
-                            class="slds-button slds-button_icon slds-modal__close slds-button_icon-inverse"
-                            title="Close">
-                            <svg class="slds-button__icon slds-button__icon_large" aria-hidden="true">
-                                <use xlink:href={ICON_URL_CLOSE}></use>
-                            </svg>
-                            <span class="slds-assistive-text">Close</span>
-                        </button>
-                        <h2 id="modal-heading-01" class="slds-modal__title slds-hyphenate">Add New Record</h2>
-                    </header>
-                    <div class="slds-modal__content slds-p-around_medium" id="modal-content-id-1">
-                        <lightning-record-form object-api-name={objName} record-type-id={recordTypeId}
-                            oncancel={handleCancel} fields={fieldsToCreate} onsuccess={handleSuccess} columns="2">
-                        </lightning-record-form>
-                    </div>
+    <div 
+        class="row"
+        style="display: flex; justify-content: space-between;"
+    >
+        <div class="col" style="width: 50%;">
+            <div class="slds-form-element" style="padding-left: 10px; padding-right: 10px;">
+                <template if:true={showLabel}>
+                    <label class="slds-form-element__label" for="combobox-id-1">{labelName}</label>
+                </template>
+        
+                <!-- Create-new-record modal START -->
+                <!-- Hidden for now as we do not need it -->
+                <div if:true={showModal}>
+                    <section if:true={showModal} role="dialog" tabindex="-1" aria-labelledby="modal-heading-01"
+                        aria-modal="true" aria-describedby="modal-content-id-1" class="slds-modal slds-fade-in-open">
+                        <div class="slds-modal__container">
+                            <header class="slds-modal__header">
+                                <button onclick={handleCancel}
+                                    class="slds-button slds-button_icon slds-modal__close slds-button_icon-inverse"
+                                    title="Close">
+                                    <svg class="slds-button__icon slds-button__icon_large" aria-hidden="true">
+                                        <use xlink:href={ICON_URL_CLOSE}></use>
+                                    </svg>
+                                    <span class="slds-assistive-text">Close</span>
+                                </button>
+                                <h2 id="modal-heading-01" class="slds-modal__title slds-hyphenate">Add New Record</h2>
+                            </header>
+                            <div class="slds-modal__content slds-p-around_medium" id="modal-content-id-1">
+                                <lightning-record-form object-api-name={objName} record-type-id={recordTypeId}
+                                    oncancel={handleCancel} fields={fieldsToCreate} onsuccess={handleSuccess} columns="2">
+                                </lightning-record-form>
+                            </div>
+                        </div>
+                    </section>
+                    <div class="slds-backdrop slds-backdrop_open"></div>
                 </div>
-            </section>
-            <div class="slds-backdrop slds-backdrop_open"></div>
-        </div>
-        <!-- END -->
-
-        <div class="slds-form-element__control">
-            <div class="slds-combobox_container">
-                <div class="slds-combobox slds-dropdown-trigger slds-dropdown-trigger_click" aria-expanded="false"
-                    aria-haspopup="listbox" role="combobox">
-                    <template if:false={selectedRecord}>
-                        <div class="slds-combobox__form-element slds-input-has-icon slds-input-has-icon_right"
-                            role="none">
-                            <h2><b>Search by Name</b></h2>
-                            <input
-                                style="margin-top: 10px;"
-                                type="text"
-                                onfocus={handleInputChange}
-                                onchange={handleInputChange}
-                                onkeyup={handleInputChange}
-                                onkeydown={handleInputChange}
-                                class="slds-input slds-combobox__input"
-                                id="combobox-id-1"
-                                aria-autocomplete="list"
-                                aria-controls="listbox-id-1"
-                                autocomplete="off"
-                                role="textbox"
-                                placeholder={placeholder}
-                            />
-                            <div style="background: white;" id="listbox-id-0"
-                                class="slds-dropdown_length-with-icon-7 slds-dropdown_fluid"
-                                role="listbox"
-                            >
+                <!-- END -->
+        
+                <div class="slds-form-element__control">
+                    <div class="slds-combobox_container">
+                        <div class="slds-combobox slds-dropdown-trigger slds-dropdown-trigger_click" aria-expanded="false"
+                            aria-haspopup="listbox" role="combobox">
+                            <div class="slds-combobox__form-element slds-input-has-icon slds-input-has-icon_right"
+                                role="none">
+                                <h2><b>Search by Name</b></h2>
+                                <input
+                                    style="margin-top: 10px;"
+                                    type="text"
+                                    onfocus={handleInputChange}
+                                    onchange={handleInputChange}
+                                    onkeyup={handleInputChange}
+                                    onkeydown={handleInputChange}
+                                    class="slds-input slds-combobox__input"
+                                    id="combobox-id-1"
+                                    aria-autocomplete="list"
+                                    aria-controls="listbox-id-1"
+                                    autocomplete="off"
+                                    role="textbox"
+                                    placeholder={placeholder}
+                                />
+                                <div style="background: white;" id="listbox-id-0"
+                                    class="slds-dropdown_length-with-icon-7 slds-dropdown_fluid"
+                                    role="listbox"
+                                >
+                                    <ul class="slds-listbox slds-listbox_vertical" role="presentation">
+                                        <template if:true={searchRecords} for:each={searchRecords} for:item="record"
+                                            for:index="index">
+                                            <li onclick={handleSelect} role="presentation" class="slds-listbox__item"
+                                                data-record-id={record.Id} key={record.Id}>
+                                                <div data-id={record.Id}
+                                                    class="slds-media slds-listbox__option slds-listbox__option_entity slds-listbox__option_has-meta"
+                                                    role="option">
+                                                    <span class="slds-media__figure slds-listbox__option-icon">
+                                                        <span class="slds-icon_container slds-icon-standard-account">
+                                                            <svg class="slds-icon slds-icon_small" aria-hidden="true">
+                                                                <use xlink:href={ICON_URL}></use>0
+                                                            </svg>
+                                                        </span>
+                                                    </span>
+                                                    <span class="slds-media__body">
+                                                        <span
+                                                            class="slds-listbox__option-text slds-listbox__option-text_entity">
+                                                            {record.FIELD1}
+                                                        </span>
+                                                        <span
+                                                            class="slds-listbox__option-meta slds-listbox__option-meta_entity">
+                                                            {objectLabel} • {record.FIELD2} &nbsp; {record.FIELD3}
+                                                        </span>
+                                                    </span>
+                                                </div>
+                                            </li>
+                                        </template>
+                                    </ul>
+                                </div>
+                                <hr 
+                                    style="display: block;
+                                            height: 1px;
+                                            border: 0;
+                                            border-top: 1px solid #ccc;
+                                            margin: 1em 0;
+                                            padding: 0;"
+                                />
+                                <!-- NAME input for searching -->
+                                <!-- onfocus={handleInputChange}
+                                    onchange={handleInputChange}
+                                    onkeyup={handleInputChange}
+                                    onkeydown={handleInputChange} -->
+        
+                                <!-- HOUR input for searching -->
+                                <h2><b>Search by Fields</b></h2>
+                                <lightning-input name="searchHour" label="Weekly Hour Needed:" type="number" placeholder="Therapy Hours Needed"
+                                    onchange={updateInputChange}></lightning-input>
+                                <lightning-input name="searchHourlyRate" label="Hourly Rate Limit:" type="number" formatter="currency" step=".01" placeholder="Hourly Rate Budget"
+                                    onchange={updateInputChange}></lightning-input>
+        
+                                <div style="margin-top: 10px;">
+                                    Credential Needed:
+                                </div>
+                                <lightning-button-menu
+                                    onselect={handleCredSelect}
+                                    title="Search_Credential"
+                                    label={selectedCred}
+                                >
+                                    <template for:each={creds} for:item="cred">
+                                        <template if:true={cred.isSubheader}>
+                                            <lightning-menu-subheader label={cred.label} key={cred.label}></lightning-menu-subheader>
+                                        </template>
+                                        <template if:false={cred.isSubheader}>
+                                            <lightning-menu-item
+                                                label={cred.label}
+                                                value={cred.value}
+                                                key={cred.label}
+                                            >
+                                            </lightning-menu-item>
+                                        </template>
+                                    </template>
+                                </lightning-button-menu>
+        
+                                <div style="margin-top: 10px; text-align: center;">
+                                    <lightning-button style="margin-left: 0;" label="Search" onclick={handleMultiSearch} class="slds-m-left_x-small">
+                                    </lightning-button>
+                                </div>
+                            </div>
+                            <div style="background: white;" id="listbox-id-1"
+                                class="slds-dropdown_length-with-icon-7 slds-dropdown_fluid" role="listbox">
                                 <ul class="slds-listbox slds-listbox_vertical" role="presentation">
-                                    <template if:true={searchRecords} for:each={searchRecords} for:item="record"
+                                    <!-- Create-new-record button -->
+                                    <li onclick={handleNewRecord} if:true={showButton} role="presentation"
+                                        class="slds-listbox__item">
+                                        <div class="slds-media slds-listbox__option slds-listbox__option_entity slds-listbox__option_has-meta"
+                                            role="option">
+                                            <span class="slds-media__figure slds-listbox__option-icon">
+                                                <span class="slds-icon_container slds-icon-standard-account">
+                                                    <svg class="slds-icon slds-icon_small" aria-hidden="true">
+                                                        <use xlink:href={ICON_URL_NEW}></use>
+                                                    </svg>
+                                                </span>
+                                            </span>
+                                            <span class="slds-media__body">
+                                                <span class="slds-listbox__option-text slds-listbox__option-text_entity">
+                                                    New {objectLabel}
+                                                </span>
+                                            </span>
+                                        </div>
+                                    </li>
+                                    <template if:true={multiSearchRecords} for:each={multiSearchRecords} for:item="record"
                                         for:index="index">
                                         <li onclick={handleSelect} role="presentation" class="slds-listbox__item"
                                             data-record-id={record.Id} key={record.Id}>
@@ -91,114 +195,25 @@
                                     </template>
                                 </ul>
                             </div>
-                            <hr 
-                                style="display: block;
-                                        height: 1px;
-                                        border: 0;
-                                        border-top: 1px solid #ccc;
-                                        margin: 1em 0;
-                                        padding: 0;"
-                            />
-                            <!-- NAME input for searching -->
-                            <!-- onfocus={handleInputChange}
-                                onchange={handleInputChange}
-                                onkeyup={handleInputChange}
-                                onkeydown={handleInputChange} -->
-
-                            <!-- HOUR input for searching -->
-                            <h2><b>Search by Fields</b></h2>
-                            <lightning-input name="searchHour" label="Weekly Hour Needed:" type="number" placeholder="Therapy Hours Needed"
-                                onchange={updateInputChange}></lightning-input>
-                            <lightning-input name="searchHourlyRate" label="Hourly Rate Limit:" type="number" formatter="currency" step=".01" placeholder="Hourly Rate Budget"
-                                onchange={updateInputChange}></lightning-input>
-
-                            <div style="margin-top: 10px;">
-                                Credential Needed:
-                            </div>
-                            <lightning-button-menu
-                                onselect={handleCredSelect}
-                                title="Search_Credential"
-                                label={selectedCred}
-                            >
-                                <template for:each={creds} for:item="cred">
-                                    <template if:true={cred.isSubheader}>
-                                        <lightning-menu-subheader label={cred.label} key={cred.label}></lightning-menu-subheader>
-                                    </template>
-                                    <template if:false={cred.isSubheader}>
-                                        <lightning-menu-item
-                                            label={cred.label}
-                                            value={cred.value}
-                                            key={cred.label}
-                                        >
-                                        </lightning-menu-item>
-                                    </template>
-                                </template>
-                            </lightning-button-menu>
-
-                            <div style="margin-top: 10px; text-align: center;">
-                                <lightning-button style="margin-left: 0;" label="Search" onclick={handleMultiSearch} class="slds-m-left_x-small">
-                                </lightning-button>
-                            </div>
                         </div>
-                        <div style="background: white;" id="listbox-id-1"
-                            class="slds-dropdown_length-with-icon-7 slds-dropdown_fluid" role="listbox">
-                            <ul class="slds-listbox slds-listbox_vertical" role="presentation">
-                                <!-- Create-new-record button -->
-                                <li onclick={handleNewRecord} if:true={showButton} role="presentation"
-                                    class="slds-listbox__item">
-                                    <div class="slds-media slds-listbox__option slds-listbox__option_entity slds-listbox__option_has-meta"
-                                        role="option">
-                                        <span class="slds-media__figure slds-listbox__option-icon">
-                                            <span class="slds-icon_container slds-icon-standard-account">
-                                                <svg class="slds-icon slds-icon_small" aria-hidden="true">
-                                                    <use xlink:href={ICON_URL_NEW}></use>
-                                                </svg>
-                                            </span>
-                                        </span>
-                                        <span class="slds-media__body">
-                                            <span class="slds-listbox__option-text slds-listbox__option-text_entity">
-                                                New {objectLabel}
-                                            </span>
-                                        </span>
-                                    </div>
-                                </li>
-                                <template if:true={multiSearchRecords} for:each={multiSearchRecords} for:item="record"
-                                    for:index="index">
-                                    <li onclick={handleSelect} role="presentation" class="slds-listbox__item"
-                                        data-record-id={record.Id} key={record.Id}>
-                                        <div data-id={record.Id}
-                                            class="slds-media slds-listbox__option slds-listbox__option_entity slds-listbox__option_has-meta"
-                                            role="option">
-                                            <span class="slds-media__figure slds-listbox__option-icon">
-                                                <span class="slds-icon_container slds-icon-standard-account">
-                                                    <svg class="slds-icon slds-icon_small" aria-hidden="true">
-                                                        <use xlink:href={ICON_URL}></use>0
-                                                    </svg>
-                                                </span>
-                                            </span>
-                                            <span class="slds-media__body">
-                                                <span
-                                                    class="slds-listbox__option-text slds-listbox__option-text_entity">
-                                                    {record.FIELD1}
-                                                </span>
-                                                <span
-                                                    class="slds-listbox__option-meta slds-listbox__option-meta_entity">
-                                                    {objectLabel} • {record.FIELD2} &nbsp; {record.FIELD3}
-                                                </span>
-                                            </span>
-                                        </div>
-                                    </li>
-                                </template>
-                            </ul>
-                        </div>
-                    </template>
-                    <template if:true={selectedRecord}>
-                        <c-selected-record icon-url={ICON_URL} record={selectedRecord} onclose={handleClose}
-                            show-label=false index={index} object-label={objectLabel}>
-                        </c-selected-record>
-                    </template>
+                    </div>
                 </div>
             </div>
+            
+        </div>
+        <div class="col" style="width: 50%;">
+            <template if:true={selectedRecord}>
+                <c-selected-record
+                    icon-url={ICON_URL}
+                    record={selectedRecord}
+                    onclose={handleClose}
+                    show-label=false
+                    object-label={objectLabel}>
+                </c-selected-record>
+            </template>
+            <template if:false={selectedRecord}>
+                <h2><b>Record Detail</b></h2>
+            </template>
         </div>
     </div>
 </template>
