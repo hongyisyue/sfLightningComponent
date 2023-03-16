@@ -1,21 +1,21 @@
 <template>
-    <lightning-card title="Contract Finder">
-        <lightning-card title="Current Record">
-            <!-- The selected oppotunity -->
+    <lightning-card>
+        <!-- Leave this part as a template -->
+        <!-- <lightning-card title="Current Record">
             <lightning-record-form
                  object-api-name={currObjName}
                  record-id={recordId}
                  fields={currDisplayFields}
              >
             </lightning-record-form>
-        </lightning-card>
+        </lightning-card> -->
         
         <template if:true={objName}>
             <lightning-card
-                title="Fitting Contact(s)"
+                title="Contact Finder"
                 icon-name="standard:record"
             >
-            <div class="slds-var-m-around_small">
+            <div>
                 <c-search-component
                     onlookup={handleLookup}
                     fields-to-create={fieldsToCreate}

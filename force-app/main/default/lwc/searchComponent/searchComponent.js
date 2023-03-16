@@ -38,7 +38,10 @@ export default class SearchComponent extends LightningElement {
 
     delayTimeout;
 
+    // Search results
     searchRecords;
+    multiSearchRecords;
+
     selectedRecord;
     objectLabel;
     isLoading = false;
@@ -63,7 +66,6 @@ export default class SearchComponent extends LightningElement {
     credTypes;
     credsMap = {};
     creds;
-
     selectedCred = 'Select a Credential';
 
     connectedCallback() {
@@ -211,7 +213,7 @@ export default class SearchComponent extends LightningElement {
                     record.FIELD3 = record['Remaining_Hours_per_Week__c'] +'hr';
                     record.FIELD4 = record['Active_Credentials__c'];
                 });
-                this.searchRecords = allResult;
+                this.multiSearchRecords = allResult;
             })
             .catch(error => {
                 console.error('Error:', error);
@@ -259,7 +261,6 @@ export default class SearchComponent extends LightningElement {
     }
 
     handleSelect(event) {
-
         let recordId = event.currentTarget.dataset.recordId;
         let selectRecord = this.searchRecords.find((item) => {
             return item.Id === recordId;
