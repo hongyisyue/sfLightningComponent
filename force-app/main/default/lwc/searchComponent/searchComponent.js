@@ -274,6 +274,7 @@ export default class SearchComponent extends LightningElement {
 
     handleSelect(event) {
         let recordId = event.currentTarget.dataset.recordId;
+        console.log(event);
         let selectRecord = this.searchRecords.find((item) => {
             return item.Id === recordId;
         });
@@ -292,33 +293,34 @@ export default class SearchComponent extends LightningElement {
                 'Active_Credentials__c',
                 'Remaining_Hours_per_Week__c',
             ];
-
-            const selectEvent = new CustomEvent(
-                'selected',
-                {
-                    recordId: this.selectedRecordId,
-                    objName: this.selectedObjName,
-                    fields: this.selectedDisplayFields                   
-                });
-            
-            this.dispatchEvent(selectEvent);
         }
+    }
 
-        // const selectedEvent = new CustomEvent('lookup', {
-        //     bubbles: true,
-        //     composed: true,
-        //     cancelable: true,
-        //     detail: {
-        //         data: {
-        //             record: selectRecord,
-        //             recordId: recordId,
-        //             currentRecordId: this.currentRecordId,
-        //             parentAPIName: this.parentAPIName,
-        //             index: this.index
-        //         }
-        //     }
-        // });
-        // this.dispatchEvent(selectedEvent);
+    // TODO: refactor needed, try not to duplicate.
+    handleSelect2(event) {
+        let recordId = event.currentTarget.dataset.recordId;
+        let selectRecord = this.multiSearchRecords.find((item) => {
+            return item.Id === recordId;
+        });
+        console.log(selectRecord);
+        this.selectedRecord = selectRecord;
+        this.selectedRecordId = null;
+        this.selectedObjName = null;
+        this.selectedDisplayFields = null;
+        if (selectRecord) {
+            this.selectedRecordId = selectRecord.Id;
+            console.log(this.selectedRecordId);
+            this.selectedObjName = this.objName;
+            console.log(this.selectedObjName);
+            this.selectedDisplayFields = [
+                'Name',
+                'AccountId',
+                'Email',
+                'Max_Hourly_Rate__c',
+                'Active_Credentials__c',
+                'Remaining_Hours_per_Week__c',
+            ];
+        }
     }
 
     handleClose() {
