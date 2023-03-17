@@ -202,17 +202,16 @@
             
         </div>
         <div class="col" style="width: 50%;">
+            <h2><b>Record Detail</b></h2>
             <template if:true={selectedRecord}>
                 <c-selected-record
-                    icon-url={ICON_URL}
-                    record={selectedRecord}
-                    onclose={handleClose}
-                    show-label=false
-                    object-label={objectLabel}>
+                    obj={selectedObjName}
+                    recordid={selectedRecordId}
+                    fields={selectedDisplayFields}>
                 </c-selected-record>
             </template>
             <template if:false={selectedRecord}>
-                <h2><b>Record Detail</b></h2>
+                <h2>No Record selected yet</h2>
             </template>
         </div>
     </div>

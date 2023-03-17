@@ -1,4 +1,4 @@
-import { LightningElement, api, track, wire } from 'lwc';
+import { LightningElement, api, track } from 'lwc';
 import search from '@salesforce/apex/SearchController.search';
 import multiSearch from '@salesforce/apex/SearchController.multiSearch';
 import getAllActiveCredential from '@salesforce/apex/SearchController.getAllActiveCredential';
@@ -29,6 +29,18 @@ export default class SearchComponent extends LightningElement {
     @api index;
 
     @track error;
+
+    // Fields for current selected Record
+    selectedRecordId;
+    selectedObjName;
+    selectedDisplayFields = 
+    [
+        'Name',
+        'Annual_SPED_Budget__c',
+        'CurrencyIsoCode',
+        'School_Year__c',
+        'CloseDate'
+    ];
 
     // Fields for single-field search
     searchTerm;
@@ -266,22 +278,47 @@ export default class SearchComponent extends LightningElement {
             return item.Id === recordId;
         });
         this.selectedRecord = selectRecord;
+        this.selectedRecordId = null;
+        this.selectedObjName = null;
+        this.selectedDisplayFields = null;
+        if (selectRecord) {
+            this.selectedRecordId = selectRecord.Id;
+            this.selectedObjName = selectRecord.Type;
+            this.selectedDisplayFields = [
+                'Name',
+                'AccountId',
+                'Email',
+                'Max_Hourly_Rate__c',
+                'Active_Credentials__c',
+                'Remaining_Hours_per_Week__c',
+            ];
 
-        const selectedEvent = new CustomEvent('lookup', {
-            bubbles: true,
-            composed: true,
-            cancelable: true,
-            detail: {
-                data: {
-                    record: selectRecord,
-                    recordId: recordId,
-                    currentRecordId: this.currentRecordId,
-                    parentAPIName: this.parentAPIName,
-                    index: this.index
-                }
-            }
-        });
-        this.dispatchEvent(selectedEvent);
+            const selectEvent = new CustomEvent(
+                'selected',
+                {
+                    recordId: this.selectedRecordId,
+                    objName: this.selectedObjName,
+                    fields: this.selectedDisplayFields                   
+                });
+            
+            this.dispatchEvent(selectEvent);
+        }
+
+        // const selectedEvent = new CustomEvent('lookup', {
+        //     bubbles: true,
+        //     composed: true,
+        //     cancelable: true,
+        //     detail: {
+        //         data: {
+        //             record: selectRecord,
+        //             recordId: recordId,
+        //             currentRecordId: this.currentRecordId,
+        //             parentAPIName: this.parentAPIName,
+        //             index: this.index
+        //         }
+        //     }
+        // });
+        // this.dispatchEvent(selectedEvent);
     }
 
     handleClose() {
