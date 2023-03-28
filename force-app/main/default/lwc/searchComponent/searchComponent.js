@@ -58,6 +58,7 @@ export default class SearchComponent extends LightningElement {
     objectLabel;
     isLoading = false;
     allowShowButton = false;
+    showSearchByName = false;
     
     
     allowShowModal = false;

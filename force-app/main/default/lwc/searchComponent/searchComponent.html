@@ -45,71 +45,68 @@
                             aria-haspopup="listbox" role="combobox">
                             <div class="slds-combobox__form-element slds-input-has-icon slds-input-has-icon_right"
                                 role="none">
-                                <h2><b>Search by Name</b></h2>
-                                <input
-                                    style="margin-top: 10px;"
-                                    type="text"
-                                    onfocus={handleInputChange}
-                                    onchange={handleInputChange}
-                                    onkeyup={handleInputChange}
-                                    onkeydown={handleInputChange}
-                                    class="slds-input slds-combobox__input"
-                                    id="combobox-id-1"
-                                    aria-autocomplete="list"
-                                    aria-controls="listbox-id-1"
-                                    autocomplete="off"
-                                    role="textbox"
-                                    placeholder={placeholder}
-                                />
-                                <div style="background: white;" id="listbox-id-0"
-                                    class="slds-dropdown_length-with-icon-7 slds-dropdown_fluid"
-                                    role="listbox"
-                                >
-                                    <ul class="slds-listbox slds-listbox_vertical" role="presentation">
-                                        <template if:true={searchRecords} for:each={searchRecords} for:item="record"
-                                            for:index="index">
-                                            <li onclick={handleSelect} role="presentation" class="slds-listbox__item"
-                                                data-record-id={record.Id} key={record.Id}>
-                                                <div data-id={record.Id}
-                                                    class="slds-media slds-listbox__option slds-listbox__option_entity slds-listbox__option_has-meta"
-                                                    role="option">
-                                                    <span class="slds-media__figure slds-listbox__option-icon">
-                                                        <span class="slds-icon_container slds-icon-standard-account">
-                                                            <svg class="slds-icon slds-icon_small" aria-hidden="true">
-                                                                <use xlink:href={ICON_URL}></use>0
-                                                            </svg>
+                                <!-- Search by name section, Hide for now in case we need it -->
+                                <template if:true={showSearchByName}>
+                                    <h2><b>Search by Name</b></h2>
+                                    <input
+                                        style="margin-top: 10px;"
+                                        type="text"
+                                        onfocus={handleInputChange}
+                                        onchange={handleInputChange}
+                                        onkeyup={handleInputChange}
+                                        onkeydown={handleInputChange}
+                                        class="slds-input slds-combobox__input"
+                                        id="combobox-id-1"
+                                        aria-autocomplete="list"
+                                        aria-controls="listbox-id-1"
+                                        autocomplete="off"
+                                        role="textbox"
+                                        placeholder={placeholder}
+                                    />
+                                    <div style="background: white;" id="listbox-id-0"
+                                        class="slds-dropdown_length-with-icon-7 slds-dropdown_fluid"
+                                        role="listbox"
+                                    >
+                                        <ul class="slds-listbox slds-listbox_vertical" role="presentation">
+                                            <template if:true={searchRecords} for:each={searchRecords} for:item="record"
+                                                for:index="index">
+                                                <li onclick={handleSelect} role="presentation" class="slds-listbox__item"
+                                                    data-record-id={record.Id} key={record.Id}>
+                                                    <div data-id={record.Id}
+                                                        class="slds-media slds-listbox__option slds-listbox__option_entity slds-listbox__option_has-meta"
+                                                        role="option">
+                                                        <span class="slds-media__figure slds-listbox__option-icon">
+                                                            <span class="slds-icon_container slds-icon-standard-account">
+                                                                <svg class="slds-icon slds-icon_small" aria-hidden="true">
+                                                                    <use xlink:href={ICON_URL}></use>0
+                                                                </svg>
+                                                            </span>
                                                         </span>
-                                                    </span>
-                                                    <span class="slds-media__body">
-                                                        <span
-                                                            class="slds-listbox__option-text slds-listbox__option-text_entity">
-                                                            {record.FIELD1}
+                                                        <span class="slds-media__body">
+                                                            <span
+                                                                class="slds-listbox__option-text slds-listbox__option-text_entity">
+                                                                {record.FIELD1}
+                                                            </span>
+                                                            <span
+                                                                class="slds-listbox__option-meta slds-listbox__option-meta_entity">
+                                                                {objectLabel} • {record.FIELD2} &nbsp; {record.FIELD3}
+                                                            </span>
                                                         </span>
-                                                        <span
-                                                            class="slds-listbox__option-meta slds-listbox__option-meta_entity">
-                                                            {objectLabel} • {record.FIELD2} &nbsp; {record.FIELD3}
-                                                        </span>
-                                                    </span>
-                                                </div>
-                                            </li>
-                                        </template>
-                                    </ul>
-                                </div>
-                                <hr 
-                                    style="display: block;
-                                            height: 1px;
-                                            border: 0;
-                                            border-top: 1px solid #ccc;
-                                            margin: 1em 0;
-                                            padding: 0;"
-                                />
-                                <!-- NAME input for searching -->
-                                <!-- onfocus={handleInputChange}
-                                    onchange={handleInputChange}
-                                    onkeyup={handleInputChange}
-                                    onkeydown={handleInputChange} -->
-        
-                                <!-- HOUR input for searching -->
+                                                    </div>
+                                                </li>
+                                            </template>
+                                        </ul>
+                                    </div>
+                                    <hr 
+                                        style="display: block;
+                                                height: 1px;
+                                                border: 0;
+                                                border-top: 1px solid #ccc;
+                                                margin: 1em 0;
+                                                padding: 0;"
+                                    />
+
+                                </template>
                                 <h2><b>Search by Fields</b></h2>
                                 <lightning-input name="searchHour" label="Weekly Hour Needed:" type="number" placeholder="Therapy Hours Needed"
                                     onchange={updateInputChange}></lightning-input>
