@@ -107,6 +107,7 @@
                                     />
 
                                 </template>
+                                <!-- Search by fields -->
                                 <h2><b>Search by Fields</b></h2>
                                 <lightning-input name="searchHour" label="Weekly Hour Needed:" type="number" placeholder="Therapy Hours Needed"
                                     onchange={updateInputChange}></lightning-input>
@@ -144,27 +145,12 @@
                             <div style="background: white;" id="listbox-id-1"
                                 class="slds-dropdown_length-with-icon-7 slds-dropdown_fluid" role="listbox">
                                 <ul class="slds-listbox slds-listbox_vertical" role="presentation">
-                                    <!-- Create-new-record button -->
-                                    <li onclick={handleNewRecord} if:true={showButton} role="presentation"
-                                        class="slds-listbox__item">
-                                        <div class="slds-media slds-listbox__option slds-listbox__option_entity slds-listbox__option_has-meta"
-                                            role="option">
-                                            <span class="slds-media__figure slds-listbox__option-icon">
-                                                <span class="slds-icon_container slds-icon-standard-account">
-                                                    <svg class="slds-icon slds-icon_small" aria-hidden="true">
-                                                        <use xlink:href={ICON_URL_NEW}></use>
-                                                    </svg>
-                                                </span>
-                                            </span>
-                                            <span class="slds-media__body">
-                                                <span class="slds-listbox__option-text slds-listbox__option-text_entity">
-                                                    New {objectLabel}
-                                                </span>
-                                            </span>
-                                        </div>
-                                    </li>
-                                    <template if:true={multiSearchRecords} for:each={multiSearchRecords} for:item="record"
-                                        for:index="index">
+                                    <template
+                                        if:true={multiSearchRecords}
+                                        for:each={multiSearchRecords}
+                                        for:item="record"
+                                        for:index="index"
+                                    >
                                         <li onclick={handleSelect2} role="presentation" class="slds-listbox__item"
                                             data-record-id={record.Id} key={record.Id}>
                                             <div data-id={record.Id}
@@ -173,7 +159,7 @@
                                                 <span class="slds-media__figure slds-listbox__option-icon">
                                                     <span class="slds-icon_container slds-icon-standard-account">
                                                         <svg class="slds-icon slds-icon_small" aria-hidden="true">
-                                                            <use xlink:href={ICON_URL}></use>0
+                                                            <use xlink:href={ICON_URL}></use>
                                                         </svg>
                                                     </span>
                                                 </span>
