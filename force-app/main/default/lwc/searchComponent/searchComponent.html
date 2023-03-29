@@ -145,6 +145,19 @@
                             <div style="background: white;" id="listbox-id-1"
                                 class="slds-dropdown_length-with-icon-7 slds-dropdown_fluid" role="listbox">
                                 <ul class="slds-listbox slds-listbox_vertical" role="presentation">
+                                    <template if:true={gridData}>
+                                        <lightning-datatable
+                                            key-field="Name"
+                                            data={gridData}
+                                            columns={gridColumns}
+                                            hide-checkbox-column="true"
+                                            default-sort-direction={defaultSortDirection}
+                                            sorted-direction={sortDirection}
+                                            sorted-by={sortedBy}
+                                            onsort={onHandleSort}
+                                        >
+                                        </lightning-datatable>
+                                    </template>
                                     <template
                                         if:true={multiSearchRecords}
                                         for:each={multiSearchRecords}

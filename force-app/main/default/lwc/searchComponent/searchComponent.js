@@ -20,15 +20,77 @@ export default class SearchComponent extends LightningElement {
     @api showLabel = false;
     @api parentAPIName = 'ParentId';
     @api createRecord = false;
-
+    
     /* values to be passed to create the new record */
     @api recordTypeId;
     @api fieldsToCreate = [];
-
+    
     /* Create fields for using in Datatable for Multiple In-line Edit */
     @api index;
-
+    
     @track error;
+    
+    // Fields and functions for lightning datatable
+    gridColumns = [
+        {
+            type: 'text',
+            fieldName: 'Name',
+            label: 'Name'
+        },
+        {
+            type: 'number',
+            fieldName: 'Max_Hourly_Rate__c',
+            label: 'Hourly Rate (CAD)',
+            sortable: true
+        },
+        {
+            type: 'number',
+            fieldName: 'Remaining_Hours_per_Week__c',
+            label: 'Remaining Hours per Week',
+            sortable: true
+        }
+    ];
+    gridData = [
+        {
+            Name: 'Hong TEST',
+            Max_Hourly_Rate__c: 55,
+            Remaining_Hours_per_Week__c: 14
+        },
+        {
+            Name: 'Hong TEST2',
+            Max_Hourly_Rate__c: 65,
+            Remaining_Hours_per_Week__c: 24
+        }
+    ];
+    defaultSortDirection = 'asc';
+    sortDirection = 'asc';
+    sortedBy;
+
+    sortBy(field, reverse, primer) {
+        const key = primer
+            ? function (x) {
+                  return primer(x[field]);
+              }
+            : function (x) {
+                  return x[field];
+              };
+
+        return function (a, b) {
+            a = key(a);
+            b = key(b);
+            return reverse * ((a > b) - (b > a));
+        };
+    }
+
+    onHandleSort(event) {
+        const { fieldName: sortedBy, sortDirection } = event.detail;
+        const cloneData = [...this.gridData];
+
+        cloneData.sort(this.sortBy(sortedBy, sortDirection === 'asc' ? 1 : -1));
+        this.gridData = cloneData;
+        this.sortDirection = sortDirection;
+        this.sortedBy = sortedBy;
+    }
 
     // Fields for current selected Record
     selectedRecordId;
