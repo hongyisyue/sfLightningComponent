@@ -35,33 +35,27 @@ export default class SearchComponent extends LightningElement {
         {
             type: 'text',
             fieldName: 'Name',
-            label: 'Name'
+            label: 'Name',
+            hideDefaultActions: true,
         },
         {
             type: 'number',
             fieldName: 'Max_Hourly_Rate__c',
             label: 'Hourly Rate (CAD)',
-            sortable: true
+            type: 'currency',
+            typeAttributes: { currencyCode: 'CAD', step: '0.001' },
+            sortable: true,
+            hideDefaultActions: true,
         },
         {
             type: 'number',
             fieldName: 'Remaining_Hours_per_Week__c',
             label: 'Remaining Hours per Week',
-            sortable: true
+            sortable: true,
+            hideDefaultActions: true,
         }
     ];
-    gridData = [
-        {
-            Name: 'Hong TEST',
-            Max_Hourly_Rate__c: 55,
-            Remaining_Hours_per_Week__c: 14
-        },
-        {
-            Name: 'Hong TEST2',
-            Max_Hourly_Rate__c: 65,
-            Remaining_Hours_per_Week__c: 24
-        }
-    ];
+    gridData = [];
     defaultSortDirection = 'asc';
     sortDirection = 'asc';
     sortedBy;
@@ -283,12 +277,19 @@ export default class SearchComponent extends LightningElement {
                 let stringResult = JSON.stringify(result);
                 let allResult = JSON.parse(stringResult);
                 allResult.forEach(record => {
-                    record.FIELD1 = record['Name'];
-                    record.FIELD2 = ('$' + record['Max_Hourly_Rate__c']).substring(0,7);
-                    record.FIELD3 = record['Remaining_Hours_per_Week__c'] +'hr remain';
-                    record.FIELD4 = record['Active_Credentials__c'];
+                    // record.FIELD1 = record['Name'];
+                    // record.FIELD2 = ('$' + record['Max_Hourly_Rate__c']).substring(0,7);
+                    // record.FIELD3 = record['Remaining_Hours_per_Week__c'] +'hr remain';
+                    // record.FIELD4 = record['Active_Credentials__c'];
+
+                    record.Name = record['Name'];
+                    // record.Max_Hourly_Rate__c = ('$' + record['Max_Hourly_Rate__c']).substring(0,7);
+                    record.Max_Hourly_Rate__c = record['Max_Hourly_Rate__c'].toFixed(2);
+                    record.Remaining_Hours_per_Week__c = record['Remaining_Hours_per_Week__c'];
+                    // record.FIELD4 = record['Active_Credentials__c'];
                 });
-                this.multiSearchRecords = allResult;
+                this.gridData = allResult;
+                // this.multiSearchRecords = allResult;
             })
             .catch(error => {
                 console.error('Error:', error);
