@@ -150,11 +150,12 @@
                                             key-field="Name"
                                             data={gridData}
                                             columns={gridColumns}
-                                            hide-checkbox-column="true"
                                             default-sort-direction={defaultSortDirection}
                                             sorted-direction={sortDirection}
                                             sorted-by={sortedBy}
                                             onsort={onHandleSort}
+                                            max-row-selection="1"
+                                            onrowselection={handleSelect3}
                                         >
                                         </lightning-datatable>
                                     </template>

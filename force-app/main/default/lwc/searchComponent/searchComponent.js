@@ -36,7 +36,7 @@ export default class SearchComponent extends LightningElement {
             type: 'text',
             fieldName: 'Name',
             label: 'Name',
-            hideDefaultActions: true,
+            hideDefaultActions: true
         },
         {
             type: 'number',
@@ -111,6 +111,7 @@ export default class SearchComponent extends LightningElement {
     multiSearchRecords;
 
     selectedRecord;
+    selectedRow;
     objectLabel;
     isLoading = false;
     allowShowButton = false;
@@ -284,8 +285,9 @@ export default class SearchComponent extends LightningElement {
 
                     record.Name = record['Name'];
                     // record.Max_Hourly_Rate__c = ('$' + record['Max_Hourly_Rate__c']).substring(0,7);
-                    record.Max_Hourly_Rate__c = record['Max_Hourly_Rate__c'].toFixed(2);
+                    record.Max_Hourly_Rate__c = record['Max_Hourly_Rate__c'];
                     record.Remaining_Hours_per_Week__c = record['Remaining_Hours_per_Week__c'];
+                    record.Id = record['Id'];
                     // record.FIELD4 = record['Active_Credentials__c'];
                 });
                 this.gridData = allResult;
@@ -385,6 +387,37 @@ export default class SearchComponent extends LightningElement {
                 'Remaining_Hours_per_Week__c',
             ];
         }
+    }
+
+    handleSelect3(event) {
+        // We only allow single row selection now
+        const selectedRows = event.detail.selectedRows;
+        if (selectedRows && selectedRows.length > 0) {
+            console.log(selectedRows[0]);
+        }
+        // let recordId = row.Id;
+        // let selectRecord = this.multiSearchRecords.find((item) => {
+        //     return item.Id === recordId;
+        // });
+        // console.log(selectRecord);
+        // this.selectedRecord = selectRecord;
+        // this.selectedRecordId = null;
+        // this.selectedObjName = null;
+        // this.selectedDisplayFields = null;
+        // if (selectRecord) {
+        //     this.selectedRecordId = selectRecord.Id;
+        //     console.log(this.selectedRecordId);
+        //     this.selectedObjName = this.objName;
+        //     console.log(this.selectedObjName);
+        //     this.selectedDisplayFields = [
+        //         'Name',
+        //         'AccountId',
+        //         'Email',
+        //         'Max_Hourly_Rate__c',
+        //         'Active_Credentials__c',
+        //         'Remaining_Hours_per_Week__c',
+        //     ];
+        // }
     }
 
     handleClose() {
