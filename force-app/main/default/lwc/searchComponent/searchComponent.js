@@ -136,7 +136,8 @@ export default class SearchComponent extends LightningElement {
     credTypes;
     credsMap = {};
     creds;
-    selectedCred = 'Select a Credential';
+    selectedCredLabel = 'Select a Credential';
+    selectedCreds = new Set([]);
 
     connectedCallback() {
         this.updateCredential();
@@ -205,8 +206,6 @@ export default class SearchComponent extends LightningElement {
                 }
             });
             // this.creds.sort((a,b) => a.label.localeCompare(b.label));
-            console.log(this.credTypes);
-            console.log(this.credsMap);
             
             filteredCreds = [];
             for (const key in this.credsMap) {
@@ -219,7 +218,8 @@ export default class SearchComponent extends LightningElement {
                         filteredCreds.push({
                             label: cred.label,
                             value: cred.label,
-                            isSubheader: false
+                            isSubheader: false,
+                            checked: false
                         });
                     }
                 }
@@ -235,7 +235,27 @@ export default class SearchComponent extends LightningElement {
     }
 
     handleCredSelect(event) {
-        this.selectedCred = event.detail.value;
+        const selected = event.detail.value;
+        const menuItem = this.creds.find(function(item) {
+            return item.value === selected;
+        });
+        menuItem.checked = !menuItem.checked;
+
+        if (menuItem.checked) {
+            this.selectedCreds.add(menuItem.value);
+        } else  {
+            this.selectedCreds.delete(menuItem.value);
+        }
+
+        if (this.selectedCreds.size == 1) {
+            const i = this.selectedCreds.values();
+            this.selectedCredLabel = i.next().value;
+
+        } else if (this.selectedCreds.size > 1) {
+            this.selectedCredLabel = this.selectedCreds.size.toString() + ' selected';
+        } else {
+            this.selectedCredLabel = 'Select a Credential';
+        }
     }
 
     updateInputChange(event) {
@@ -250,7 +270,7 @@ export default class SearchComponent extends LightningElement {
         const filterString = 
             'Remaining_Hours_per_Week__c >= ' + this['searchHour'].toString() +
             ' AND Max_Hourly_Rate__c <= ' + this['searchHourlyRate'].toString() +
-            ' AND Active_Credentials__c INCLUDES(\'' + this.selectedCred + '\')';
+            ' AND Active_Credentials__c INCLUDES(\'' + this.selectedCredLabel + '\')';
         console.log(filterString);
         // calling the search function from Apex class
         multiSearch({

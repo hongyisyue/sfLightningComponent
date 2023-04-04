@@ -120,7 +120,7 @@
                                 <lightning-button-menu
                                     onselect={handleCredSelect}
                                     title="Search_Credential"
-                                    label={selectedCred}
+                                    label={selectedCredLabel}
                                 >
                                     <template for:each={creds} for:item="cred">
                                         <template if:true={cred.isSubheader}>
@@ -131,6 +131,7 @@
                                                 label={cred.label}
                                                 value={cred.value}
                                                 key={cred.label}
+                                                checked={cred.checked}
                                             >
                                             </lightning-menu-item>
                                         </template>
@@ -159,7 +160,7 @@
                                         >
                                         </lightning-datatable>
                                     </template>
-                                    <template
+                                    <!-- <template
                                         if:true={multiSearchRecords}
                                         for:each={multiSearchRecords}
                                         for:item="record"
@@ -189,7 +190,7 @@
                                                 </span>
                                             </div>
                                         </li>
-                                    </template>
+                                    </template> -->
                                 </ul>
                             </div>
                         </div>
