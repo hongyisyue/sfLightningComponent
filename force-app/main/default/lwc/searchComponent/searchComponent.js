@@ -152,13 +152,6 @@ export default class SearchComponent extends LightningElement {
             this.objectLabel = this.objName;
         }
 
-        if (this.valueId && this.valueName) {
-            this.selectedRecord = {
-                FIELD1: this.valueName,
-                Id: this.valueId
-            }
-        }
-
         this.objectLabel = this.titleCase(this.objectLabel);
         let fieldList;
         if (!Array.isArray(this.displayFields)) {
@@ -181,13 +174,6 @@ export default class SearchComponent extends LightningElement {
         });
         
         this.fields = combinedFields.concat(JSON.parse(JSON.stringify(this.fields)));
-
-        if (this.valueId && this.valueName) {
-            this.selectedRecord = {
-                FIELD1: this.valueName,
-                recordId: this.valueId
-            }
-        }
         
     }
 
@@ -389,35 +375,31 @@ export default class SearchComponent extends LightningElement {
         }
     }
 
-    handleSelect3(event) {
+    handleSelectRow(event) {
         // We only allow single row selection now
         const selectedRows = event.detail.selectedRows;
         if (selectedRows && selectedRows.length > 0) {
-            console.log(selectedRows[0]);
+            const row = selectedRows[0];
+            this.selectedRow = row;
+            this.selectedRecordId = null;
+            this.selectedObjName = null;
+            this.selectedDisplayFields = null;
+            if (this.selectedRow) {
+                console.log(this.selectedRow);
+                this.selectedRecordId = this.selectedRow['Id'];
+                this.selectedObjName = this.objName;
+                this.selectedDisplayFields = [
+                    'Name',
+                    'AccountId',
+                    'Email',
+                    'Max_Hourly_Rate__c',
+                    'Active_Credentials__c',
+                    'Total_Hours_Available_Per_Week__c',
+                    'Remaining_Hours_per_Week__c'
+                ];
+            }
+
         }
-        // let recordId = row.Id;
-        // let selectRecord = this.multiSearchRecords.find((item) => {
-        //     return item.Id === recordId;
-        // });
-        // console.log(selectRecord);
-        // this.selectedRecord = selectRecord;
-        // this.selectedRecordId = null;
-        // this.selectedObjName = null;
-        // this.selectedDisplayFields = null;
-        // if (selectRecord) {
-        //     this.selectedRecordId = selectRecord.Id;
-        //     console.log(this.selectedRecordId);
-        //     this.selectedObjName = this.objName;
-        //     console.log(this.selectedObjName);
-        //     this.selectedDisplayFields = [
-        //         'Name',
-        //         'AccountId',
-        //         'Email',
-        //         'Max_Hourly_Rate__c',
-        //         'Active_Credentials__c',
-        //         'Remaining_Hours_per_Week__c',
-        //     ];
-        // }
     }
 
     handleClose() {

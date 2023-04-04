@@ -155,7 +155,7 @@
                                             sorted-by={sortedBy}
                                             onsort={onHandleSort}
                                             max-row-selection="1"
-                                            onrowselection={handleSelect3}
+                                            onrowselection={handleSelectRow}
                                         >
                                         </lightning-datatable>
                                     </template>
@@ -200,14 +200,14 @@
         </div>
         <div class="col" style="width: 50%;">
             <h2><b>Record Detail</b></h2>
-            <template if:true={selectedRecord}>
+            <template if:true={selectedRow}>
                 <c-selected-record
                     obj={selectedObjName}
                     recordid={selectedRecordId}
                     fields={selectedDisplayFields}>
                 </c-selected-record>
             </template>
-            <template if:false={selectedRecord}>
+            <template if:false={selectedRow}>
                 <h2>No Record selected yet</h2>
             </template>
         </div>
