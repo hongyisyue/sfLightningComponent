@@ -267,10 +267,20 @@ export default class SearchComponent extends LightningElement {
     handleMultiSearch(event) {
         console.log('Start multi search');
         window.clearTimeout(this.delayTimeout);
+
+        let credentialString = '';
+        console.log(this.selectedCreds);
+        
+        const i = this.selectedCreds.values();
+        for (const cred of i) {
+            credentialString = credentialString + '\'' + cred + '\',';
+        }
+        credentialString = credentialString.substring(0, credentialString.length-1);
+
         const filterString = 
             'Remaining_Hours_per_Week__c >= ' + this['searchHour'].toString() +
             ' AND Max_Hourly_Rate__c <= ' + this['searchHourlyRate'].toString() +
-            ' AND Active_Credentials__c INCLUDES(\'' + this.selectedCredLabel + '\')';
+            ' AND Active_Credentials__c INCLUDES(' + credentialString + ')';
         console.log(filterString);
         // calling the search function from Apex class
         multiSearch({
