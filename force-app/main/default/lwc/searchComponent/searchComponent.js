@@ -55,7 +55,7 @@ export default class SearchComponent extends LightningElement {
             hideDefaultActions: true,
         }
     ];
-    gridData = [];
+    gridData;
     defaultSortDirection = 'asc';
     sortDirection = 'asc';
     sortedBy;
@@ -290,14 +290,11 @@ export default class SearchComponent extends LightningElement {
                     // record.FIELD4 = record['Active_Credentials__c'];
 
                     record.Name = record['Name'];
-                    // record.Max_Hourly_Rate__c = ('$' + record['Max_Hourly_Rate__c']).substring(0,7);
                     record.Max_Hourly_Rate__c = record['Max_Hourly_Rate__c'];
                     record.Remaining_Hours_per_Week__c = record['Remaining_Hours_per_Week__c'];
                     record.Id = record['Id'];
-                    // record.FIELD4 = record['Active_Credentials__c'];
                 });
                 this.gridData = allResult;
-                // this.multiSearchRecords = allResult;
             })
             .catch(error => {
                 console.error('Error:', error);
@@ -402,6 +399,9 @@ export default class SearchComponent extends LightningElement {
         this.selectedRecord = undefined;
         this.searchRecords = undefined;
         this.allowShowButton = false;
+        this.selectedCreds.clear();
+        this.selectedRow = undefined;
+        this.gridData = undefined;
         const selectedEvent = new CustomEvent('lookup', {
             bubbles: true,
             composed: true,
