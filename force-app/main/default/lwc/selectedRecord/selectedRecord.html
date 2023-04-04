@@ -7,6 +7,7 @@
             <template for:each={fields} for:item="field">
                 <lightning-output-field field-name={field} key={field}> </lightning-output-field>
             </template>
+            <lightning-formatted-url label="Object's Profile" value={recordUrl}></lightning-formatted-url>
         </div>
     </lightning-record-view-form>
 </template>
