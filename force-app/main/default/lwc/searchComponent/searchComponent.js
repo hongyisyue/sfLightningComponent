@@ -268,6 +268,7 @@ export default class SearchComponent extends LightningElement {
         console.log('Start multi search');
         window.clearTimeout(this.delayTimeout);
 
+        // Handle credential SOQL
         let credentialString = '';
         const i = this.selectedCreds.values();
         for (const cred of i) {
@@ -275,6 +276,15 @@ export default class SearchComponent extends LightningElement {
         }
         credentialString = credentialString.substring(0, credentialString.length-1);
 
+        // Handle search hour SOQL
+        if (!this['searchHour']) {
+            this['searchHour'] = -1;
+        }
+
+        // Handle hourly rate SOQL
+        if (!this['searchHourlyRate']) {
+            this['searchHourlyRate'] = 9999;
+        }
         const filterString = 
             'Remaining_Hours_per_Week__c >= ' + this['searchHour'].toString() +
             ' AND Max_Hourly_Rate__c <= ' + this['searchHourlyRate'].toString() +
