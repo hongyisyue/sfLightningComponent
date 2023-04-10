@@ -199,7 +199,7 @@ export default class SearchComponent extends LightningElement {
                 for (const prof of result) {
                     const p = {
                         label: prof,
-                        value: prof,
+                        value: '\'' + prof + '\'',
                         checked: false
                     };
                     allResults.push(p);
@@ -342,6 +342,7 @@ export default class SearchComponent extends LightningElement {
         const filterString = 
             'Remaining_Hours_per_Week__c >= ' + this['searchHour'].toString() +
             ' AND Max_Hourly_Rate__c <= ' + this['searchHourlyRate'].toString() +
+            ' AND Profession__c = ' + this['selectedProf'].value +
             ' AND Active_Credentials__c INCLUDES(\'' + credentialString + '\')';
         console.log(filterString);
         // calling the search function from Apex class
