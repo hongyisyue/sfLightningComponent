@@ -148,7 +148,7 @@ export default class SearchComponent extends LightningElement {
     // Active Professions
     // What thje html uses
     profs; // type: {label: String, value: String, checked: Boolean}[]
-    defaultProfLabel = 'Select a Professoin';
+    defaultProfLabel = 'Select a Profession';
     selectedProfLabel = this.defaultProfLabel;
     // Profession is a single select field
     selectedProf;
