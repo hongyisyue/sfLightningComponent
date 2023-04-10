@@ -139,14 +139,16 @@ export default class SearchComponent extends LightningElement {
     credsMap = {};
     // What the html uses
     creds; // type: {label: String, value: String, checked: Boolean}[]
-    selectedCredLabel = 'Select one or more Credential(s)';
+    defaultCredLabel = 'Select one or more Credential(s)';
+    selectedCredLabel = this.defaultCredLabel;
     // Credential is a multi-select field
     selectedCreds = new Set([]);
 
     // Active Professions
     // What thje html uses
     profs; // type: {label: String, value: String, checked: Boolean}[]
-    selectedProfLabel = 'Select one or more Professoin(s)'
+    defaultProfLabel = 'Select a Professoin';
+    selectedProfLabel = this.defaultProfLabel;
     // Profession is a single select field
     selectedProf;
 
@@ -285,7 +287,7 @@ export default class SearchComponent extends LightningElement {
         } else if (this.selectedCreds.size > 1) {
             this.selectedCredLabel = this.selectedCreds.size.toString() + ' selected';
         } else {
-            this.selectedCredLabel = 'Select a Credential';
+            this.selectedCredLabel = this.defaultCredLabel;
         }
     }
 
@@ -306,7 +308,7 @@ export default class SearchComponent extends LightningElement {
             this.selectedProfLabel = this.selectedProf.label + ' selected';
         } else {
             this.selectedProf = undefined;
-            this.selectedProfLabel = 'Select a Profession';
+            this.selectedProfLabel = this.defaultProfLabel;
         }
     }
 
