@@ -3,6 +3,8 @@ import search from '@salesforce/apex/SearchController.search';
 import multiSearch from '@salesforce/apex/SearchController.multiSearch';
 import getAllActiveCredential from '@salesforce/apex/SearchController.getAllActiveCredential';
 import getRecentlyCreatedRecord from '@salesforce/apex/SearchController.getRecentlyCreatedRecord';
+import getAllProfession from '@salesforce/apex/SearchController.getAllProfession';
+
 const DELAY = 10;
 import { } from 'lightning/navigation'
 
@@ -135,12 +137,20 @@ export default class SearchComponent extends LightningElement {
     // Active Credentials;
     credTypes;
     credsMap = {};
-    creds;
-    selectedCredLabel = 'Select a Credential';
+    // What the html uses
+    creds; // type: {label: String, value: String, checked: Boolean}[]
+    selectedCredLabel = 'Select one or more Credential(s)';
     selectedCreds = new Set([]);
+
+    // Active Professions
+    // What thje html uses
+    profs; // type: {label: String, value: String, checked: Boolean}[]
+    selectedProfLabel = 'Select one or more Professoin(s)'
+    selectedProfs = new Set([]);
 
     connectedCallback() {
         this.updateCredential();
+        this.updateProfession();
 
         let icons = this.iconName.split(':');
         this.ICON_URL = this.ICON_URL.replace('{0}', icons[0]);
@@ -177,6 +187,25 @@ export default class SearchComponent extends LightningElement {
         this.fields = combinedFields.concat(JSON.parse(JSON.stringify(this.fields)));
         
     }
+
+    updateProfession() {
+        getAllProfession().then(result => {
+            if (result.length > 0) {
+                const allResults = [];
+                for (const prof of result) {
+                    const p = {
+                        label: prof,
+                        value: prof,
+                        checked: false
+                    };
+                    allResults.push(p);
+                }
+
+                this.profs = allResults;
+            }
+        })
+    }
+
 
     // Fetch all the active credentials
     updateCredential() {
@@ -256,6 +285,32 @@ export default class SearchComponent extends LightningElement {
         } else {
             this.selectedCredLabel = 'Select a Credential';
         }
+    }
+
+    handleProfSelect(event) {
+        const selected = event.detail.value;
+        const menuItem = this.profs.find(function(item) {
+            return item.value === selected;
+        });
+        menuItem.checked = !menuItem.checked;
+
+        if (menuItem.checked) {
+            this.selectedProfs.add(menuItem.value);
+        } else  {
+            this.selectedProfs.delete(menuItem.value);
+        }
+
+        if (this.selectedProfs.size == 1) {
+            const i = this.selectedProfs.values();
+            this.selectedProfLabel = i.next().value;
+
+        } else if (this.selectedProfs.size > 1) {
+            this.selectedProfLabel = this.selectedProfs.size.toString() + ' selected';
+        } else {
+            this.selectedProfLabel = 'Select a Profession';
+        }
+
+        console.log(this.selectedProfs);
     }
 
     updateInputChange(event) {

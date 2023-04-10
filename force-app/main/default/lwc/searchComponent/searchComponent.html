@@ -116,7 +116,7 @@
         
                                 <div style="margin-top: 10px;">
                                     <span style="color: red;">*</span>
-                                    Credential Needed:
+                                    Credential(s) Needed:
                                 </div>
                                 <lightning-button-menu
                                     onselect={handleCredSelect}
@@ -136,6 +136,26 @@
                                             >
                                             </lightning-menu-item>
                                         </template>
+                                    </template>
+                                </lightning-button-menu>
+
+                                <div style="margin-top: 10px;">
+                                    <span style="color: red;">*</span>
+                                    Profession(s) Needed:
+                                </div>
+                                <lightning-button-menu
+                                    onselect={handleProfSelect}
+                                    title="Search_Professoin"
+                                    label={selectedProfLabel}
+                                >
+                                    <template for:each={profs} for:item="prof">
+                                        <lightning-menu-item
+                                            label={prof.label}
+                                            value={prof.value}
+                                            key={prof.value}
+                                            checked={prof.checked}
+                                        >
+                                        </lightning-menu-item>
                                     </template>
                                 </lightning-button-menu>
         
