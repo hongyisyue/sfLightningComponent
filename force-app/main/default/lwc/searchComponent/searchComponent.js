@@ -140,13 +140,15 @@ export default class SearchComponent extends LightningElement {
     // What the html uses
     creds; // type: {label: String, value: String, checked: Boolean}[]
     selectedCredLabel = 'Select one or more Credential(s)';
+    // Credential is a multi-select field
     selectedCreds = new Set([]);
 
     // Active Professions
     // What thje html uses
     profs; // type: {label: String, value: String, checked: Boolean}[]
     selectedProfLabel = 'Select one or more Professoin(s)'
-    selectedProfs = new Set([]);
+    // Profession is a single select field
+    selectedProf;
 
     connectedCallback() {
         this.updateCredential();
@@ -292,25 +294,20 @@ export default class SearchComponent extends LightningElement {
         const menuItem = this.profs.find(function(item) {
             return item.value === selected;
         });
+
+        // this.selectedProf.checked = !this.selectedProf.checked;
         menuItem.checked = !menuItem.checked;
 
         if (menuItem.checked) {
-            this.selectedProfs.add(menuItem.value);
-        } else  {
-            this.selectedProfs.delete(menuItem.value);
-        }
-
-        if (this.selectedProfs.size == 1) {
-            const i = this.selectedProfs.values();
-            this.selectedProfLabel = i.next().value;
-
-        } else if (this.selectedProfs.size > 1) {
-            this.selectedProfLabel = this.selectedProfs.size.toString() + ' selected';
+            if (this.selectedProf) {
+                this.selectedProf.checked = !this.selectedProf.checked;
+            }
+            this.selectedProf = menuItem;
+            this.selectedProfLabel = this.selectedProf.label + ' selected';
         } else {
+            this.selectedProf = undefined;
             this.selectedProfLabel = 'Select a Profession';
         }
-
-        console.log(this.selectedProfs);
     }
 
     updateInputChange(event) {
