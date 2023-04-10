@@ -55,4 +55,15 @@ public class SearchController {
         results = sobjList;
         return results;
     }
+
+    @AuraEnabled
+    public static List<String> getAllProfession(){
+        Schema.DescribeFieldResult F = Contact.Profession__c.getDescribe();
+         List<Schema.PicklistEntry> P = F.getPicklistValues();
+        List<String> picklistValues = new List<String>();
+        for(Schema.PicklistEntry pickValue: p) {
+            picklistValues.add(pickValue.getValue());
+        }
+        return picklistValues;
+    }
 }

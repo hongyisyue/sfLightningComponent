@@ -2,6 +2,13 @@
 public with sharing class SearchControllerTest {
 
     @IsTest
+    public static void getProfessionTest(){
+        Test.startTest();
+        SearchController.getAllProfession();
+        Test.stopTest();
+    }
+
+    @IsTest
     public static void multiSearchTest(){
         Account accuntRecord = createAccountRecord();
         // Expected result name
