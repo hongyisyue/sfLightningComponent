@@ -390,6 +390,7 @@ export default class SearchComponent extends LightningElement {
             'Remaining_Hours_per_Week__c >= ' + this['searchHour'].toString() +
             ' AND Max_Hourly_Rate__c <= ' + this['searchHourlyRate'].toString() +
             ' AND Profession__c = ' + this['selectedProf'].value +
+            ' AND Therapist_Status__c = ' + this['selectedTS'].value +
             ' AND Active_Credentials__c INCLUDES(\'' + credentialString + '\')';
         console.log(filterString);
         // calling the search function from Apex class
