@@ -505,11 +505,13 @@ export default class SearchComponent extends LightningElement {
                 this.selectedDisplayFields = [
                     'Name',
                     'AccountId',
+                    'Therapist_Status__c',
+                    'Profession__c',
                     'Email',
                     'Max_Hourly_Rate__c',
                     'Active_Credentials__c',
                     'Total_Hours_Available_Per_Week__c',
-                    'Remaining_Hours_per_Week__c'
+                    'Remaining_Hours_per_Week__c',
                 ];
             }
 
