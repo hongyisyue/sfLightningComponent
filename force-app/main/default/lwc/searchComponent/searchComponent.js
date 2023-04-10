@@ -4,6 +4,7 @@ import multiSearch from '@salesforce/apex/SearchController.multiSearch';
 import getAllActiveCredential from '@salesforce/apex/SearchController.getAllActiveCredential';
 import getRecentlyCreatedRecord from '@salesforce/apex/SearchController.getRecentlyCreatedRecord';
 import getAllProfession from '@salesforce/apex/SearchController.getAllProfession';
+import getAllTherapistStatus from '@salesforce/apex/SearchController.getAllTherapistStatus';
 
 const DELAY = 10;
 import { } from 'lightning/navigation'
@@ -152,9 +153,18 @@ export default class SearchComponent extends LightningElement {
     // Profession is a single select field
     selectedProf;
 
+    // Active Therpist Status
+    // What thje html uses
+    tStatuses; // type: {label: String, value: String, checked: Boolean}[]
+    defaultStatusLabel = 'Select a Therapist Status';
+    selectedStatusLabel = this.defaultStatusLabel;
+    // Therapist Status is a single select field
+    selectedStatus;
+
     connectedCallback() {
         this.updateCredential();
         this.updateProfession();
+        this.updateTherapistStatus();
 
         let icons = this.iconName.split(':');
         this.ICON_URL = this.ICON_URL.replace('{0}', icons[0]);
@@ -206,6 +216,25 @@ export default class SearchComponent extends LightningElement {
                 }
 
                 this.profs = allResults;
+            }
+        })
+    }
+
+    updateTherapistStatus() {
+        getAllTherapistStatus().then(result => {
+            if (result.length > 0) {
+                const allResults = [];
+                for (const tStatus of result) {
+                    const ts = {
+                        label: tStatus,
+                        value: '\'' + tStatus + '\'',
+                        checked: false
+                    };
+                    allResults.push(ts);
+                }
+
+                this.tStatuses = allResults;
+                console.log(this.tStatuses);
             }
         })
     }
