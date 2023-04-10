@@ -156,10 +156,10 @@ export default class SearchComponent extends LightningElement {
     // Active Therpist Status
     // What thje html uses
     tStatuses; // type: {label: String, value: String, checked: Boolean}[]
-    defaultStatusLabel = 'Select a Therapist Status';
-    selectedStatusLabel = this.defaultStatusLabel;
+    defaultTSLabel = 'Select a Therapist Status';
+    selectedTSLabel = this.defaultTSLabel;
     // Therapist Status is a single select field
-    selectedStatus;
+    selectedTS;
 
     connectedCallback() {
         this.updateCredential();
@@ -234,7 +234,6 @@ export default class SearchComponent extends LightningElement {
                 }
 
                 this.tStatuses = allResults;
-                console.log(this.tStatuses);
             }
         })
     }
@@ -338,6 +337,25 @@ export default class SearchComponent extends LightningElement {
         } else {
             this.selectedProf = undefined;
             this.selectedProfLabel = this.defaultProfLabel;
+        }
+    }
+
+    handleTSSelect(event) {
+        const selected = event.detail.value;
+        const menuItem = this.tStatuses.find(function(item) {
+            return item.value === selected;
+        });
+        menuItem.checked = !menuItem.checked;
+
+        if (menuItem.checked) {
+            if (this.selectedTS) {
+                this.selectedTS.checked = !this.selectedTS.checked;
+            }
+            this.selectedTS = menuItem;
+            this.selectedTSLabel = this.selectedTS.label + ' selected';
+        } else {
+            this.selectedTS = undefined;
+            this.selectedTSLabel = this.defaultTSLabel;
         }
     }
 

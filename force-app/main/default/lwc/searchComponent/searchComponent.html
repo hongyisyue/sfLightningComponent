@@ -158,6 +158,26 @@
                                         </lightning-menu-item>
                                     </template>
                                 </lightning-button-menu>
+
+                                <div style="margin-top: 10px;">
+                                    <span style="color: red;">*</span>
+                                    Therapist Status Needed:
+                                </div>
+                                <lightning-button-menu
+                                    onselect={handleTSSelect}
+                                    title="Search_TS"
+                                    label={selectedTSLabel}
+                                >
+                                    <template for:each={tStatuses} for:item="ts">
+                                        <lightning-menu-item
+                                            label={ts.label}
+                                            value={ts.value}
+                                            key={ts.value}
+                                            checked={ts.checked}
+                                        >
+                                        </lightning-menu-item>
+                                    </template>
+                                </lightning-button-menu>
         
                                 <div style="margin-top: 10px; text-align: center;">
                                     <lightning-button style="margin-left: 0;" label="Search" onclick={handleMultiSearch} class="slds-m-left_x-small">
