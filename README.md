@@ -15,7 +15,7 @@ https://trailhead.salesforce.com/content/learn/trails/build-lightning-web-compon
   1. Enable 'Dev Hub' under 'Setup' in your production environment.
   2. Get the Salesforce DX extension on your VS Code IDE.
   3. Connect to your Salesforce environment via Salesforce CLI.
-  4. Push/deploy your change to the component via Salesforce CLI.
+  4. Push/deploy your change to the component via Salesforce CLI. Command: sfdx force:source:deploy -p C:\Users\homey\workspace\salesforce-component\trailhead\force-app\main\default\lwc
 
 III. Use your custom Lightning Web Component in your environment
   1. Go to any Salesforce object page, or even the Home page.
