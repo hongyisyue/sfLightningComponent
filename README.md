@@ -4,12 +4,12 @@ Files:
 2. Lightning components
 
 ## How Do You deploy: 
-I. Deploy the Apex class(es)  [*You cannot create new objects directly in Production]
-  1. Create the Apex class and the Test Apex class in your sandbox environment.
+I. Deploy the #Apex class(es) [*You cannot create new objects directly in Production]
+  1. Create the Apex class AND its Test Apex class in your sandbox environment. In our case they are #searchController.java, #searchControllerTest.java
   2. create an outbound change that incldes the 2 Apex classes.
   3. In your production environment, create an inbound change that takes in the above outbound change. The change will automatically get deploied if the test(s) are all passed.
 
-II. Deploy the Lightning Component(s)  [*Lightning components can be deploied directly to Prod/sandbox]
+II. Deploy the #Lightning Component(s)  [*Lightning components can be deploied directly to Prod/sandbox]
 https://trailhead.salesforce.com/content/learn/trails/build-lightning-web-components
 
   1. Enable 'Dev Hub' under 'Setup' in your production environment.
