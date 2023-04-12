@@ -109,9 +109,9 @@
                                 </template>
                                 <!-- Search by fields -->
                                 <h2><b>Search by Fields</b></h2>
-                                <lightning-input name="searchHour" label="Weekly Hour Needed:" type="number" placeholder="Therapy Hours Needed"
+                                <lightning-input name="searchHour" label="Minimum Remaining Hours Per Week (optional):" type="number" placeholder="Therapy Hours Needed"
                                     onchange={updateInputChange}></lightning-input>
-                                <lightning-input name="searchHourlyRate" label="Hourly Rate Limit:" type="number" formatter="currency" step=".01" placeholder="Hourly Rate Budget"
+                                <lightning-input name="searchHourlyRate" label="Max Hourly Rate (optional):" type="number" formatter="currency" step=".01" placeholder="Hourly Rate Budget"
                                     onchange={updateInputChange}></lightning-input>
         
                                 <div style="margin-top: 10px;">
