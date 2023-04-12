@@ -56,10 +56,22 @@ public class SearchController {
         return results;
     }
 
+    // Example of how to get values from a global value set
     @AuraEnabled
     public static List<String> getAllProfession(){
         Schema.DescribeFieldResult F = Contact.Profession__c.getDescribe();
          List<Schema.PicklistEntry> P = F.getPicklistValues();
+        List<String> picklistValues = new List<String>();
+        for(Schema.PicklistEntry pickValue: p) {
+            picklistValues.add(pickValue.getValue());
+        }
+        return picklistValues;
+    }
+
+    @AuraEnabled
+    public static List<String> getAllTherapistStatus(){
+        Schema.DescribeFieldResult F = Contact.Therapist_Status__c.getDescribe();
+        List<Schema.PicklistEntry> P = F.getPicklistValues();
         List<String> picklistValues = new List<String>();
         for(Schema.PicklistEntry pickValue: p) {
             picklistValues.add(pickValue.getValue());

@@ -9,6 +9,13 @@ public with sharing class SearchControllerTest {
     }
 
     @IsTest
+    public static void getTherapistStatusTest(){
+        Test.startTest();
+        SearchController.getAllTherapistStatus();
+        Test.stopTest();
+    }
+
+    @IsTest
     public static void multiSearchTest(){
         Account accuntRecord = createAccountRecord();
         // Expected result name
