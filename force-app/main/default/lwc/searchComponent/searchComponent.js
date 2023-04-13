@@ -234,8 +234,18 @@ export default class SearchComponent extends LightningElement {
                 }
 
                 this.tStatuses = allResults;
+                this.setDefaultTS();
             }
         })
+    }
+    
+    setDefaultTS(defaultTS = 'Active') {
+        const findTS = this.tStatuses.find(ts => ts.label == defaultTS);
+        if (findTS) {
+            findTS.checked = true;
+            this.selectedTS = findTS;
+            this.selectedTSLabel = this.selectedTS.label;
+        }
     }
 
 
@@ -333,7 +343,7 @@ export default class SearchComponent extends LightningElement {
                 this.selectedProf.checked = !this.selectedProf.checked;
             }
             this.selectedProf = menuItem;
-            this.selectedProfLabel = this.selectedProf.label + ' selected';
+            this.selectedProfLabel = this.selectedProf.label;
         } else {
             this.selectedProf = undefined;
             this.selectedProfLabel = this.defaultProfLabel;
@@ -352,7 +362,7 @@ export default class SearchComponent extends LightningElement {
                 this.selectedTS.checked = !this.selectedTS.checked;
             }
             this.selectedTS = menuItem;
-            this.selectedTSLabel = this.selectedTS.label + ' selected';
+            this.selectedTSLabel = this.selectedTS.label;
         } else {
             this.selectedTS = undefined;
             this.selectedTSLabel = this.defaultTSLabel;
