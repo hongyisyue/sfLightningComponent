@@ -142,7 +142,8 @@ export default class SearchComponent extends LightningElement {
     creds; // type: {label: String, value: String, checked: Boolean}[]
     defaultCredLabel = 'Select one or more Credential(s)';
     selectedCredLabel = this.defaultCredLabel;
-    // Credential is a multi-select field
+    // Credential is a multi-select field,
+    // the relationship between values is AND 
     selectedCreds = new Set([]);
 
     // Active Professions
@@ -158,8 +159,9 @@ export default class SearchComponent extends LightningElement {
     tStatuses; // type: {label: String, value: String, checked: Boolean}[]
     defaultTSLabel = 'Select a Therapist Status';
     selectedTSLabel = this.defaultTSLabel;
-    // Therapist Status is a single select field
-    selectedTS;
+    // Therapist Status is a single select field,
+    // the relationship between values is OR
+    selectedTS = new Set([]);
 
     connectedCallback() {
         this.updateCredential();
@@ -243,8 +245,8 @@ export default class SearchComponent extends LightningElement {
         const findTS = this.tStatuses.find(ts => ts.label == defaultTS);
         if (findTS) {
             findTS.checked = true;
-            this.selectedTS = findTS;
-            this.selectedTSLabel = this.selectedTS.label;
+            this.selectedTS.add(findTS.value);
+            this.selectedTSLabel = findTS.label;
         }
     }
 
@@ -312,12 +314,14 @@ export default class SearchComponent extends LightningElement {
         });
         menuItem.checked = !menuItem.checked;
 
+        // Handle selected credential set
         if (menuItem.checked) {
             this.selectedCreds.add(menuItem.value);
         } else  {
             this.selectedCreds.delete(menuItem.value);
         }
 
+        // Handle display text
         if (this.selectedCreds.size == 1) {
             const i = this.selectedCreds.values();
             this.selectedCredLabel = i.next().value;
@@ -326,6 +330,31 @@ export default class SearchComponent extends LightningElement {
             this.selectedCredLabel = this.selectedCreds.size.toString() + ' selected';
         } else {
             this.selectedCredLabel = this.defaultCredLabel;
+        }
+    }
+
+    handleTSSelect(event) {
+        const selected = event.detail.value;
+        const menuItem = this.tStatuses.find(function(item) {
+            return item.value === selected;
+        });
+        menuItem.checked = !menuItem.checked;
+
+        // Handle selected therapy status set
+        if (menuItem.checked) {
+            this.selectedTS.add(menuItem.value);
+        } else {
+            this.selectedTS.delete(menuItem.value);        }
+
+        // Handle display text
+        if (this.selectedTS.size == 1) {
+            const i = this.selectedTS.values();
+            this.selectedTSLabel = i.next().value;
+
+        } else if (this.selectedTS.size > 1) {
+            this.selectedTSLabel = this.selectedTS.size.toString() + ' selected';
+        } else {
+            this.selectedTSLabel = this.defaultTSLabel;
         }
     }
 
@@ -350,25 +379,6 @@ export default class SearchComponent extends LightningElement {
         }
     }
 
-    handleTSSelect(event) {
-        const selected = event.detail.value;
-        const menuItem = this.tStatuses.find(function(item) {
-            return item.value === selected;
-        });
-        menuItem.checked = !menuItem.checked;
-
-        if (menuItem.checked) {
-            if (this.selectedTS) {
-                this.selectedTS.checked = !this.selectedTS.checked;
-            }
-            this.selectedTS = menuItem;
-            this.selectedTSLabel = this.selectedTS.label;
-        } else {
-            this.selectedTS = undefined;
-            this.selectedTSLabel = this.defaultTSLabel;
-        }
-    }
-
     updateInputChange(event) {
         const fieldName = event.target.name;
         this[fieldName] = event.target.value;
@@ -381,11 +391,19 @@ export default class SearchComponent extends LightningElement {
 
         // Handle credential SOQL
         let credentialString = '';
-        const i = this.selectedCreds.values();
-        for (const cred of i) {
+        const CI = this.selectedCreds.values();
+        for (const cred of CI) {
             credentialString = credentialString + cred + ';';
         }
         credentialString = credentialString.substring(0, credentialString.length-1);
+
+        // Handle therapist status SOQL
+        let TSString = '';
+        const TSI = this.selectedTS.values();
+        for (const ts of TSI) {
+            TSString = TSString + ts + ',';
+        }
+        TSString = TSString.substring(0, TSString.length-1);
 
         // Handle search hour SOQL
         if (!this['searchHour']) {
@@ -400,7 +418,7 @@ export default class SearchComponent extends LightningElement {
             'Remaining_Hours_per_Week__c >= ' + this['searchHour'].toString() +
             ' AND Max_Hourly_Rate__c <= ' + this['searchHourlyRate'].toString() +
             ' AND Profession__c = ' + this['selectedProf'].value +
-            ' AND Therapist_Status__c = ' + this['selectedTS'].value +
+            ' AND Therapist_Status__c IN (' + TSString + ')'+
             ' AND Active_Credentials__c INCLUDES(\'' + credentialString + '\')';
         console.log(filterString);
         // calling the search function from Apex class
