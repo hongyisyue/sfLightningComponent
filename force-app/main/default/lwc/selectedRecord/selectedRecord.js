@@ -31,11 +31,7 @@ export default class SelectedRecord extends LightningElement {
                 target: '_blank',
                 tooltip: { fieldName: 'website' }
             },
-            // formatter: function(rowData, column) {
-            //   const website = rowData[column.fieldName];
-            //   const websiteLabel = website.substring(66, 84);
-            //   return `<a href="${website}" target="_blank">${websiteLabel}</a>`;
-            // }
+            initialWidth: 80
         },
         {
             type: 'text',
@@ -59,7 +55,12 @@ export default class SelectedRecord extends LightningElement {
             type: 'url',
             fieldName: 'Service_Requirements__c',
             label: 'Service Requirements',
-            hideDefaultActions: true
+            hideDefaultActions: true,
+            typeAttributes: {
+                label: 'Requirement Detail',
+                target: '_blank',
+                tooltip: { fieldName: 'website' }
+            },
         }
     ];
     getTypeAttributes(rowData, column) {
