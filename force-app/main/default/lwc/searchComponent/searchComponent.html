@@ -122,6 +122,7 @@
                                     onselect={handleCredSelect}
                                     title="Search_Credential"
                                     label={selectedCredLabel}
+                                    class="slds-dropdown-trigger slds-dropdown-trigger_click slds-is-open"
                                 >
                                     <template for:each={creds} for:item="cred">
                                         <template if:true={cred.isSubheader}>
