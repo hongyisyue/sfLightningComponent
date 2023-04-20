@@ -4,16 +4,26 @@
         object-api-name={obj}
     >
         <div class="slds-box">
+            <lightning-formatted-url label="Profile Detail" value={recordUrl}></lightning-formatted-url>
             <template for:each={fields} for:item="field">
                 <lightning-output-field field-name={field} key={field}> </lightning-output-field>
             </template>
-            <lightning-formatted-url label="Object's Profile" value={recordUrl}></lightning-formatted-url>
             <!-- <div class="slds-form-element">
                 <label class="slds-form-element__label">Placement</label>
                 <div class="slds-form-element__control">
                     <lightning-output-field field-name="" value={placement.Name}></lightning-output-field>
                 </div>
             </div> -->
+            <template if:true={placementData}>
+                <lightning-datatable
+                    key-field="Id"
+                    data={placementData}
+                    columns={placementCol}
+                    default-sort-direction={defaultSortDirection}
+                    hide-checkbox-column="true"
+                >
+                </lightning-datatable>
+            </template>
         </div>
     </lightning-record-view-form>
 </template>

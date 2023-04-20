@@ -19,15 +19,79 @@ export default class SelectedRecord extends LightningElement {
     @track recordUrl;
     @track _recordid;
 
+    placementData;
+    placementCol = [
+        {
+            type: 'url',
+            fieldName: 'Id',
+            label: 'ID',
+            hideDefaultActions: true,
+            typeAttributes: {
+                label: 'Id',
+                target: '_blank',
+                tooltip: { fieldName: 'website' }
+            },
+            // formatter: function(rowData, column) {
+            //   const website = rowData[column.fieldName];
+            //   const websiteLabel = website.substring(66, 84);
+            //   return `<a href="${website}" target="_blank">${websiteLabel}</a>`;
+            // }
+        },
+        {
+            type: 'text',
+            fieldName: 'Name',
+            label: 'Name',
+            hideDefaultActions: true
+        },
+        {
+            type: 'text',
+            fieldName: 'Placement_Status__c',
+            label: 'Placement Status',
+            hideDefaultActions: true
+        },
+        {
+            type: 'text',
+            fieldName: 'Placement_Stage__c',
+            label: 'Placeement Stage',
+            hideDefaultActions: true
+        },
+        {
+            type: 'url',
+            fieldName: 'Service_Requirements__c',
+            label: 'Service Requirements',
+            hideDefaultActions: true
+        }
+    ];
+    getTypeAttributes(rowData, column) {
+        const link = rowData[column.fieldName].substring(66, 84);
+
+        return {
+          label: link,
+          target: '_blank'
+        }
+    }
+
     connectedCallback() {
         this.recordUrl = '/lightning/r/Account/' + this.recordid + '/view';
     }
 
     fetchContactPlacement() {
         getContactPlacement({Id: this.recordid}).then(result => {
-            this.placement = result;
-            console.log(result);
+            if (result && result.length > 0) {
+                const data = result[0];
+                if (data['Placements__r']) {
+                    let allResult = data['Placements__r'];
+                    allResult.forEach(p => {
+                        p.Id = 'https://tinyeyetech.lightning.force.com/lightning/r/Placement__c/' + p['Id'] + '/view';
+                        p.Service_Requirements__c = 'https://tinyeyetech.lightning.force.com/lightning/r/Service_Requirements__c/' + p['Service_Requirements__c'] + '/view';
+                    });
+                    this.placementData = allResult;
+                }
+            }
         })
+        .catch(error => {
+            console.error('Error:', error);
+        });
     }
     
     handleRemove = (event) => {
