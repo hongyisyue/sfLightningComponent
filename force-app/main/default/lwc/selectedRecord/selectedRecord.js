@@ -16,6 +16,13 @@ export default class SelectedRecord extends LightningElement {
     @track recordUrl;
     @track _recordid;
 
+    placementField = [
+        'Account_Name__c',
+        'School_Year__c',
+        'Placement_Status__c',
+        'Service_Requirements__c',
+        'Placement_Stage__c'
+    ];
     placementData;
     placementCol = [
         {
@@ -28,25 +35,34 @@ export default class SelectedRecord extends LightningElement {
                 target: '_blank',
                 tooltip: { fieldName: 'website' }
             },
-            initialWidth: 80
+            initialWidth: 60
         },
         {
             type: 'text',
-            fieldName: 'Name',
-            label: 'Name',
+            fieldName: 'Account_Name__c',
+            label: 'Account',
             hideDefaultActions: true
+        },
+        {
+            type: 'number',
+            fieldName: 'School_Year__c',
+            label: 'School Year',
+            sortable: true,
+            hideDefaultActions: true,
+            initialWidth: 100
         },
         {
             type: 'text',
             fieldName: 'Placement_Status__c',
-            label: 'Placement Status',
+            label: 'Status',
             hideDefaultActions: true
         },
         {
             type: 'text',
             fieldName: 'Placement_Stage__c',
-            label: 'Placeement Stage',
-            hideDefaultActions: true
+            label: 'Stage',
+            hideDefaultActions: true,
+            initialWidth: 90
         },
         {
             type: 'url',
@@ -66,7 +82,10 @@ export default class SelectedRecord extends LightningElement {
     }
 
     fetchContactPlacement() {
-        getContactPlacement({Id: this.recordid}).then(result => {
+        getContactPlacement({
+            fields: this.placementField,
+            Id: this.recordid
+        }).then(result => {
             if (result && result.length > 0) {
                 const data = result[0];
                 if (data['Placements__r']) {
