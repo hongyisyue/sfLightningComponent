@@ -8,12 +8,6 @@
             <template for:each={fields} for:item="field">
                 <lightning-output-field field-name={field} key={field}> </lightning-output-field>
             </template>
-            <!-- <div class="slds-form-element">
-                <label class="slds-form-element__label">Placement</label>
-                <div class="slds-form-element__control">
-                    <lightning-output-field field-name="" value={placement.Name}></lightning-output-field>
-                </div>
-            </div> -->
             <template if:true={placementData}>
                 <h2 style="padding-top: 5px;"><b>Current Placement(s)</b></h2>
                 <lightning-datatable

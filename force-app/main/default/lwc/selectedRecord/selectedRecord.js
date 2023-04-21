@@ -1,7 +1,4 @@
 import { LightningElement, api, track, wire } from 'lwc';
-
-import { getRecord, getFieldValue } from 'lightning/uiRecordApi';
-// import PLACEMENT_NAME_FIELD from '@salesforce/schema/Contact.Placement__c.Name';
 import getContactPlacement from '@salesforce/apex/SearchController.getContactPlacement';
 
 export default class SelectedRecord extends LightningElement {
@@ -63,14 +60,6 @@ export default class SelectedRecord extends LightningElement {
             },
         }
     ];
-    getTypeAttributes(rowData, column) {
-        const link = rowData[column.fieldName].substring(66, 84);
-
-        return {
-          label: link,
-          target: '_blank'
-        }
-    }
 
     connectedCallback() {
         this.recordUrl = '/lightning/r/Account/' + this.recordid + '/view';
