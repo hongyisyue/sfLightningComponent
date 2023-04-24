@@ -20,7 +20,8 @@ export default class SelectedRecord extends LightningElement {
         'Account_Name__c',
         'School_Year__c',
         'Placement_Status__c',
-        'Service_Requirements__c',
+        // 'Service_Requirements__c',
+        'Therapist_Stage__c',
         'Placement_Stage__c'
     ];
     placementData;
@@ -55,26 +56,34 @@ export default class SelectedRecord extends LightningElement {
             type: 'text',
             fieldName: 'Placement_Status__c',
             label: 'Status',
-            hideDefaultActions: true
+            hideDefaultActions: true,
+            initialWidth: 110
         },
         {
             type: 'text',
             fieldName: 'Placement_Stage__c',
             label: 'Stage',
             hideDefaultActions: true,
-            initialWidth: 90
+            initialWidth: 110
         },
         {
-            type: 'url',
-            fieldName: 'Service_Requirements__c',
-            label: 'Service Requirements',
+            type: 'text',
+            fieldName: 'Therapist_Stage__c',
+            label: 'Therapist Stage',
             hideDefaultActions: true,
-            typeAttributes: {
-                label: 'Requirement Detail',
-                target: '_blank',
-                tooltip: { fieldName: 'website' }
-            },
+            initialWidth: 120
         }
+        // {
+        //     type: 'url',
+        //     fieldName: 'Service_Requirements__c',
+        //     label: 'Service Requirements',
+        //     hideDefaultActions: true,
+        //     typeAttributes: {
+        //         label: 'Requirement Detail',
+        //         target: '_blank',
+        //         tooltip: { fieldName: 'website' }
+        //     },
+        // }
     ];
 
     connectedCallback() {
