@@ -16,6 +16,19 @@ public with sharing class SearchControllerTest {
     }
 
     @IsTest
+    public static void ContactPlacememtTest(){
+        String Id = '0034x00000dkSa0AAE';
+        List<String> pFields = new List<String>();
+        pFields.add('Name');
+        pFields.add('Placement_Status__c');
+        pFields.add('Service_Requirements__c');
+        pFields.add('Placement_Stage__c');
+        Test.startTest();
+        SearchController.getContactPlacement(pFields, Id);
+        Test.stopTest();
+    }
+
+    @IsTest
     public static void multiSearchTest(){
         Account accuntRecord = createAccountRecord();
         // Expected result name

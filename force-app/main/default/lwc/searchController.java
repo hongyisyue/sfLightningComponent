@@ -78,4 +78,14 @@ public class SearchController {
         }
         return picklistValues;
     }
+
+    @AuraEnabled
+    public static List<sObject> getContactPlacement(List<String> fields, String Id){
+        List<sObject> results;
+        String placementFields = String.join(fields,',');
+        String query = 'SELECT Id, Name, (SELECT '+ placementFields + ' FROM Placements__r) FROM Contact WHERE Id =\''+Id+'\'';
+        List<SObject> sobjList = Database.query( query );
+        results = sobjList;
+        return results;
+    }
 }
