@@ -23,16 +23,16 @@ export default class SearchComponent extends LightningElement {
     @api showLabel = false;
     @api parentAPIName = 'ParentId';
     @api createRecord = false;
-    
+
     /* values to be passed to create the new record */
     @api recordTypeId;
     @api fieldsToCreate = [];
-    
+
     /* Create fields for using in Datatable for Multiple In-line Edit */
     @api index;
-    
+
     @track error;
-    
+
     // Fields and functions for lightning datatable
     gridColumns = [
         {
@@ -66,11 +66,11 @@ export default class SearchComponent extends LightningElement {
     sortBy(field, reverse, primer) {
         const key = primer
             ? function (x) {
-                  return primer(x[field]);
-              }
+                return primer(x[field]);
+            }
             : function (x) {
-                  return x[field];
-              };
+                return x[field];
+            };
 
         return function (a, b) {
             a = key(a);
@@ -92,14 +92,14 @@ export default class SearchComponent extends LightningElement {
     // Fields for current selected Record
     selectedRecordId;
     selectedObjName;
-    selectedDisplayFields = 
-    [
-        'Name',
-        'Annual_SPED_Budget__c',
-        'CurrencyIsoCode',
-        'School_Year__c',
-        'CloseDate'
-    ];
+    selectedDisplayFields =
+        [
+            'Name',
+            'Annual_SPED_Budget__c',
+            'CurrencyIsoCode',
+            'School_Year__c',
+            'CloseDate'
+        ];
 
     // Fields for single-field search
     searchTerm;
@@ -119,8 +119,8 @@ export default class SearchComponent extends LightningElement {
     isLoading = false;
     allowShowButton = false;
     showSearchByName = false;
-    
-    
+
+
     allowShowModal = false;
     allowCreateNewRecord = false;
     showModal = this.allowCreateNewRecord && this.allowShowModal;
@@ -199,9 +199,9 @@ export default class SearchComponent extends LightningElement {
                 combinedFields.push(field.trim());
             }
         });
-        
+
         this.fields = combinedFields.concat(JSON.parse(JSON.stringify(this.fields)));
-        
+
     }
 
     updateProfession() {
@@ -240,7 +240,7 @@ export default class SearchComponent extends LightningElement {
             }
         })
     }
-    
+
     setDefaultTS(defaultTS = 'Active') {
         const findTS = this.tStatuses.find(ts => ts.label == defaultTS);
         if (findTS) {
@@ -280,7 +280,7 @@ export default class SearchComponent extends LightningElement {
                 }
             });
             // this.creds.sort((a,b) => a.label.localeCompare(b.label));
-            
+
             filteredCreds = [];
             for (const key in this.credsMap) {
                 filteredCreds.push({
@@ -292,12 +292,12 @@ export default class SearchComponent extends LightningElement {
                         const nameA = a.label.toUpperCase(); // ignore upper and lowercase
                         const nameB = b.label.toUpperCase(); // ignore upper and lowercase
                         if (nameA < nameB) {
-                          return -1;
+                            return -1;
                         }
                         if (nameA > nameB) {
-                          return 1;
+                            return 1;
                         }
-                      
+
                         // names must be equal
                         return 0;
                     });
@@ -313,17 +313,17 @@ export default class SearchComponent extends LightningElement {
             }
             this.creds = filteredCreds;
         })
-        .catch(error => {
-            console.error('Error:', error);
-        })
-        .finally(() => {
-            this.allowShowButton = this.createRecord;
-        });
+            .catch(error => {
+                console.error('Error:', error);
+            })
+            .finally(() => {
+                this.allowShowButton = this.createRecord;
+            });
     }
 
     handleCredSelect(event) {
         const selected = event.detail.value;
-        const menuItem = this.creds.find(function(item) {
+        const menuItem = this.creds.find(function (item) {
             return item.value === selected;
         });
         menuItem.checked = !menuItem.checked;
@@ -331,7 +331,7 @@ export default class SearchComponent extends LightningElement {
         // Handle selected credential set
         if (menuItem.checked) {
             this.selectedCreds.add(menuItem.value);
-        } else  {
+        } else {
             this.selectedCreds.delete(menuItem.value);
         }
 
@@ -349,7 +349,7 @@ export default class SearchComponent extends LightningElement {
 
     handleTSSelect(event) {
         const selected = event.detail.value;
-        const menuItem = this.tStatuses.find(function(item) {
+        const menuItem = this.tStatuses.find(function (item) {
             return item.value === selected;
         });
         menuItem.checked = !menuItem.checked;
@@ -358,7 +358,8 @@ export default class SearchComponent extends LightningElement {
         if (menuItem.checked) {
             this.selectedTS.add(menuItem.value);
         } else {
-            this.selectedTS.delete(menuItem.value);        }
+            this.selectedTS.delete(menuItem.value);
+        }
 
         // Handle display text
         if (this.selectedTS.size == 1) {
@@ -374,7 +375,7 @@ export default class SearchComponent extends LightningElement {
 
     handleProfSelect(event) {
         const selected = event.detail.value;
-        const menuItem = this.profs.find(function(item) {
+        const menuItem = this.profs.find(function (item) {
             return item.value === selected;
         });
 
@@ -397,7 +398,7 @@ export default class SearchComponent extends LightningElement {
         const fieldName = event.target.name;
         this[fieldName] = event.target.value;
     }
-    
+
     // Triggered when user clicks on search button. Search base on multiple fields
     handleMultiSearch(event) {
         console.log('Start multi search');
@@ -409,7 +410,7 @@ export default class SearchComponent extends LightningElement {
         for (const cred of CI) {
             credentialString = credentialString + cred + ';';
         }
-        credentialString = credentialString.substring(0, credentialString.length-1);
+        credentialString = credentialString.substring(0, credentialString.length - 1);
 
         // Handle therapist status SOQL
         let TSString = '';
@@ -417,7 +418,7 @@ export default class SearchComponent extends LightningElement {
         for (const ts of TSI) {
             TSString = TSString + ts + ',';
         }
-        TSString = TSString.substring(0, TSString.length-1);
+        TSString = TSString.substring(0, TSString.length - 1);
 
         // Handle search hour SOQL
         if (!this['searchHour']) {
@@ -428,11 +429,11 @@ export default class SearchComponent extends LightningElement {
         if (!this['searchHourlyRate']) {
             this['searchHourlyRate'] = 9999;
         }
-        const filterString = 
+        const filterString =
             'Remaining_Hours_per_Week__c >= ' + this['searchHour'].toString() +
             ' AND Max_Hourly_Rate__c <= ' + this['searchHourlyRate'].toString() +
             ' AND Profession__c = ' + this['selectedProf'].value +
-            ' AND Therapist_Status__c IN (' + TSString + ')'+
+            ' AND Therapist_Status__c IN (' + TSString + ')' +
             ' AND Active_Credentials__c INCLUDES(\'' + credentialString + '\')';
         console.log(filterString);
         // calling the search function from Apex class
