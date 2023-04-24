@@ -258,6 +258,7 @@ export default class SearchComponent extends LightningElement {
         this.credTypes = new Set();
 
         getAllActiveCredential().then(result => {
+            console.log(result);
             let stringResult = JSON.stringify(result);
             let allResult = JSON.parse(stringResult);
             allResult.forEach(record => {
@@ -287,6 +288,19 @@ export default class SearchComponent extends LightningElement {
                     isSubheader: true
                 });
                 if (this.credsMap[key] && this.credsMap[key].length > 0) {
+                    this.credsMap[key].sort((a, b) => {
+                        const nameA = a.label.toUpperCase(); // ignore upper and lowercase
+                        const nameB = b.label.toUpperCase(); // ignore upper and lowercase
+                        if (nameA < nameB) {
+                          return -1;
+                        }
+                        if (nameA > nameB) {
+                          return 1;
+                        }
+                      
+                        // names must be equal
+                        return 0;
+                    });
                     for (const cred of this.credsMap[key]) {
                         filteredCreds.push({
                             label: cred.label,
