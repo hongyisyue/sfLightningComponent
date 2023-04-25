@@ -45,7 +45,7 @@ export default class SelectedRecord extends LightningElement {
             hideDefaultActions: true
         },
         {
-            type: 'number',
+            type: 'text',
             fieldName: 'School_Year__c',
             label: 'School Year',
             sortable: true,
@@ -85,6 +85,37 @@ export default class SelectedRecord extends LightningElement {
         //     },
         // }
     ];
+
+    defaultSortDirection = 'asc';
+    sortDirection = 'asc';
+    sortedBy;
+
+    sortBy(field, reverse, primer) {
+        const key = primer
+            ? function (x) {
+                return primer(x[field]);
+            }
+            : function (x) {
+                return x[field];
+            };
+
+        return function (a, b) {
+            a = key(a);
+            b = key(b);
+            return reverse * ((a > b) - (b > a));
+        };
+    }
+
+    onHandleSort(event) {
+        const { fieldName: sortedBy, sortDirection } = event.detail;
+        const cloneData = [...this.placementData];
+
+        cloneData.sort(this.sortBy(sortedBy, sortDirection === 'asc' ? 1 : -1));
+        this.placementData = cloneData;
+        this.sortDirection = sortDirection;
+        this.sortedBy = sortedBy;
+    }
+
 
     connectedCallback() {
         this.recordUrl = '/lightning/r/Account/' + this.recordid + '/view';
