@@ -12,8 +12,6 @@ import { } from 'lightning/navigation'
 export default class SearchComponent extends LightningElement {
     @api valueId;
     @api valueName;
-
-    @api objName = 'Contact';
     @api iconName = 'standard:contact';
     @api labelName;
     @api currentRecordId;
@@ -135,6 +133,23 @@ export default class SearchComponent extends LightningElement {
     ICON_URL_NEW = '/apexpages/slds/latest/assets/icons/utility-sprite/svg/symbols.svg#add';
     ICON_URL_CLOSE = '/apexpages/slds/latest/assets/icons/utility-sprite/svg/symbols.svg#close';
 
+    // Object Types (to search on)
+    objTypes = [
+        {
+            label: 'Contact',
+            value: 'Contact',
+            checked: false
+        },
+        {
+            label: 'Lead',
+            value: 'Lead',
+            checked: false
+        }
+    ];
+    defaultObjLabel = 'Select a Object type to search';
+    selectedObjLabel = this.defaultObjLabel;
+    selectedObjType = undefined;
+
     // Active Credentials;
     credTypes;
     credsMap = {};
@@ -167,16 +182,17 @@ export default class SearchComponent extends LightningElement {
         this.updateCredential();
         this.updateProfession();
         this.updateTherapistStatus();
+        this.setDefaultObjType();
 
         let icons = this.iconName.split(':');
         this.ICON_URL = this.ICON_URL.replace('{0}', icons[0]);
         this.ICON_URL = this.ICON_URL.replace('{1}', icons[1]);
 
-        if (this.objName.includes('__c')) {
-            let obj = this.objName.substring(0, this.objName.length - 3);
+        if (this.selectedObjLabel.includes('__c')) {
+            let obj = this.selectedObjLabel.substring(0, this.selectedObjLabel.length - 3);
             this.objectLabel = obj.replaceAll('_', ' ');
         } else {
-            this.objectLabel = this.objName;
+            this.objectLabel = this.selectedObjLabel;
         }
 
         this.objectLabel = this.titleCase(this.objectLabel);
@@ -250,6 +266,14 @@ export default class SearchComponent extends LightningElement {
         }
     }
 
+    setDefaultObjType(defaultOT = 'Contact') {
+        const findOT = this.objTypes.find(ts => ts.label == defaultOT);
+        if (findOT) {
+            findOT.checked = true;
+            this.selectedObjType = findOT;
+            this.selectedObjLabel = findOT.label;
+        }
+    }
 
     // Fetch all the active credentials
     updateCredential() {
@@ -319,6 +343,25 @@ export default class SearchComponent extends LightningElement {
             .finally(() => {
                 this.allowShowButton = this.createRecord;
             });
+    }
+
+    handleObjTypeSelect(event) {
+        const selected = event.detail.value;
+        const objType = this.objTypes.find(function (item) {
+            return item.value === selected;
+        });
+        objType.checked = !objType.checked;
+
+        if (objType.checked) {
+            if (this.selectedObjType) {
+                this.selectedObjType.checked = !this.selectedObjType.checked;
+            }
+            this.selectedObjType = objType;
+            this.selectedObjLabel = this.selectedObjType.label;
+        } else {
+            this.selectedObjType = undefined;
+            this.selectedObjLabel = this.defaultObjLabel;
+        }
     }
 
     handleCredSelect(event) {
@@ -438,7 +481,7 @@ export default class SearchComponent extends LightningElement {
         console.log(filterString);
         // calling the search function from Apex class
         multiSearch({
-            objectName: this.objName,
+            objectName: this.selectedObjLabel,
             fields: 'Id, Name, Max_Hourly_Rate__c, Remaining_Hours_per_Week__c,	Active_Credentials__c',
             filters: filterString
         })
@@ -476,7 +519,7 @@ export default class SearchComponent extends LightningElement {
         this.delayTimeout = setTimeout(() => {
             //if(searchKey.length >= 2){
             search({
-                objectName: this.objName,
+                objectName: this.selectedObjLabel,
                 fields: this.fields,
                 searchTerm: searchKey
             })
@@ -519,7 +562,7 @@ export default class SearchComponent extends LightningElement {
         if (selectRecord) {
             this.selectedRecordId = selectRecord.Id;
             console.log(this.selectedRecordId);
-            this.selectedObjName = this.objName;
+            this.selectedObjName = this.selectedObjLabel;
             console.log(this.selectedObjName);
             this.selectedDisplayFields = [
                 'Name',
@@ -544,7 +587,7 @@ export default class SearchComponent extends LightningElement {
             if (this.selectedRow) {
                 console.log(this.selectedRow);
                 this.selectedRecordId = this.selectedRow['Id'];
-                this.selectedObjName = this.objName;
+                this.selectedObjName = this.selectedObjLabel;
                 this.selectedDisplayFields = [
                     'Name',
                     'AccountId',
@@ -614,7 +657,7 @@ export default class SearchComponent extends LightningElement {
         getRecentlyCreatedRecord({
             recordId: recordId,
             fields: this.fields,
-            objectName: this.objName
+            objectName: this.selectedObjLabel
         })
             .then(result => {
                 if (result) {

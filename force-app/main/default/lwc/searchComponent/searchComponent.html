@@ -29,7 +29,7 @@
                                 <h2 id="modal-heading-01" class="slds-modal__title slds-hyphenate">Add New Record</h2>
                             </header>
                             <div class="slds-modal__content slds-p-around_medium" id="modal-content-id-1">
-                                <lightning-record-form object-api-name={objName} record-type-id={recordTypeId}
+                                <lightning-record-form object-api-name={selectedObjLabel} record-type-id={recordTypeId}
                                     oncancel={handleCancel} fields={fieldsToCreate} onsuccess={handleSuccess} columns="2">
                                 </lightning-record-form>
                             </div>
@@ -107,6 +107,30 @@
                                     />
 
                                 </template>
+
+                                <!-- Search Object Type -->
+                                <div style="margin-top: 10px;">
+                                    <h2>
+                                        <span style="color: red;">*</span>
+                                        <b>Search Object Type</b>
+                                    </h2>
+                                </div>
+                                <lightning-button-menu
+                                    onselect={handleObjTypeSelect}
+                                    title="Search_Obj"
+                                    label={selectedObjLabel}
+                                >
+                                    <template for:each={objTypes} for:item="obj">
+                                        <lightning-menu-item
+                                            label={obj.label}
+                                            value={obj.value}
+                                            key={obj.value}
+                                            checked={obj.checked}
+                                        >
+                                        </lightning-menu-item>
+                                    </template>
+                                </lightning-button-menu>
+
                                 <!-- Search by fields -->
                                 <h2><b>Search by Fields</b></h2>
                                 <lightning-input name="searchHour" label="Minimum Remaining Hours Per Week (optional):" type="number" placeholder="Therapy Hours Needed"
