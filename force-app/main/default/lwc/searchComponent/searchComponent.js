@@ -8,8 +8,6 @@ import getAllTherapistStatus from '@salesforce/apex/SearchController.getAllThera
 const DELAY = 10;
 
 export default class SearchComponent extends LightningElement {
-    @api valueId;
-    @api valueName;
     @api iconName = 'standard:contact';
     @api labelName;
     @api currentRecordId;
@@ -96,7 +94,7 @@ export default class SearchComponent extends LightningElement {
             'School_Year__c',
             'CloseDate'
         ];
-        
+
     // Fields for multi-field search
     searchHour;
     searchHourlyRate;
