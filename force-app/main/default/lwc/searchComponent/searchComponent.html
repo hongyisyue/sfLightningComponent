@@ -109,27 +109,27 @@
                                 </template>
 
                                 <!-- Search Object Type -->
+                                <h2>
+                                    <span style="color: red;">*</span>
+                                    <b>Search Object Type</b>
+                                </h2>
                                 <div style="margin-top: 10px;">
-                                    <h2>
-                                        <span style="color: red;">*</span>
-                                        <b>Search Object Type</b>
-                                    </h2>
+                                    <lightning-button-menu
+                                        onselect={handleObjTypeSelect}
+                                        title="Search_Obj"
+                                        label={selectedObjLabel}
+                                    >
+                                        <template for:each={objTypes} for:item="obj">
+                                            <lightning-menu-item
+                                                label={obj.label}
+                                                value={obj.value}
+                                                key={obj.value}
+                                                checked={obj.checked}
+                                            >
+                                            </lightning-menu-item>
+                                        </template>
+                                    </lightning-button-menu>
                                 </div>
-                                <lightning-button-menu
-                                    onselect={handleObjTypeSelect}
-                                    title="Search_Obj"
-                                    label={selectedObjLabel}
-                                >
-                                    <template for:each={objTypes} for:item="obj">
-                                        <lightning-menu-item
-                                            label={obj.label}
-                                            value={obj.value}
-                                            key={obj.value}
-                                            checked={obj.checked}
-                                        >
-                                        </lightning-menu-item>
-                                    </template>
-                                </lightning-button-menu>
 
                                 <!-- Search by fields -->
                                 <h2><b>Search by Fields</b></h2>
