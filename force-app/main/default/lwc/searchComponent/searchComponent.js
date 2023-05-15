@@ -5,9 +5,7 @@ import getAllActiveCredential from '@salesforce/apex/SearchController.getAllActi
 import getRecentlyCreatedRecord from '@salesforce/apex/SearchController.getRecentlyCreatedRecord';
 import getAllProfession from '@salesforce/apex/SearchController.getAllProfession';
 import getAllTherapistStatus from '@salesforce/apex/SearchController.getAllTherapistStatus';
-
 const DELAY = 10;
-import { } from 'lightning/navigation'
 
 export default class SearchComponent extends LightningElement {
     @api valueId;
@@ -98,9 +96,7 @@ export default class SearchComponent extends LightningElement {
             'School_Year__c',
             'CloseDate'
         ];
-
-    // Fields for single-field search
-    searchTerm;
+        
     // Fields for multi-field search
     searchHour;
     searchHourlyRate;
@@ -117,8 +113,6 @@ export default class SearchComponent extends LightningElement {
     isLoading = false;
     allowShowButton = false;
     showSearchByName = false;
-
-
     allowShowModal = false;
     allowCreateNewRecord = false;
     showModal = this.allowCreateNewRecord && this.allowShowModal;
@@ -127,7 +121,6 @@ export default class SearchComponent extends LightningElement {
     field;
     field1;
     field2;
-
 
     ICON_URL = '/apexpages/slds/latest/assets/icons/{0}-sprite/svg/symbols.svg#{1}';
     ICON_URL_NEW = '/apexpages/slds/latest/assets/icons/utility-sprite/svg/symbols.svg#add';

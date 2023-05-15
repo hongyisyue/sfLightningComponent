@@ -42,7 +42,6 @@ export default class MyFirstWebComponent extends LightningElement {
 
     @track error;
 
-    searchTerm;
     delayTimeout;
 
     searchRecords;
