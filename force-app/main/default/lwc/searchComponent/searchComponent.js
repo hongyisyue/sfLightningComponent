@@ -13,7 +13,6 @@ export default class SearchComponent extends LightningElement {
     @api currentRecordId;
     @api placeholder = 'Search';
     @api fields = ['Name'];
-    @api displayFields = 'Name, Total_Hours_Available_Per_Week__c, Remaining_Hours_per_Week__c';
     @api showLabel = false;
     @api parentAPIName = 'ParentId';
     @api createRecord = false;
@@ -28,6 +27,7 @@ export default class SearchComponent extends LightningElement {
     @track error;
 
     // Fields and functions for lightning datatable
+    contactDisplayFields = 'Name, Max_Hourly_Rate__c, Remaining_Hours_per_Week__c';
     gridColumns = [
         {
             type: 'text',
@@ -188,10 +188,10 @@ export default class SearchComponent extends LightningElement {
 
         this.objectLabel = this.titleCase(this.objectLabel);
         let fieldList;
-        if (!Array.isArray(this.displayFields)) {
-            fieldList = this.displayFields.split(',');
+        if (!Array.isArray(this.contactDisplayFields)) {
+            fieldList = this.contactDisplayFields.split(',');
         } else {
-            fieldList = this.displayFields;
+            fieldList = this.contactDisplayFields;
         }
         if (fieldList.length > 1) {
             this.field = fieldList[0].trim();
@@ -473,7 +473,7 @@ export default class SearchComponent extends LightningElement {
         // calling the search function from Apex class
         multiSearch({
             objectName: this.selectedObjLabel,
-            fields: 'Id, Name, Max_Hourly_Rate__c, Remaining_Hours_per_Week__c,	Active_Credentials__c',
+            fields: this.contactDisplayFields,
             filters: filterString
         })
             .then(result => {

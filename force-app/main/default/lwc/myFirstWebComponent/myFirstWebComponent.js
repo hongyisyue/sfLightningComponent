@@ -23,7 +23,6 @@ export default class MyFirstWebComponent extends LightningElement {
     @api currentRecordId;
     @api placeholder = 'Search';
     @api fields = ['Name'];
-    @api displayFields = 'Name, Total_Hours_Available_Per_Week__c, Remaining_Hours_per_Week__c';
     @api showLabel = false;
     @api parentAPIName = 'ParentId';
     @api createRecord = false;
