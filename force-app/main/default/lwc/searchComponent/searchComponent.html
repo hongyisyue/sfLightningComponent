@@ -149,6 +149,8 @@
         
                                 <!-- If user is searching a Lead -->
                                 <template if:true={isLead}>
+                                    <lightning-input name="searchHour" label="Availability Hours per Week (optional):" type="number" placeholder="Therapy Hours Needed"
+                                        onchange={updateInputChange}></lightning-input>
                                     <lightning-input name="searchHourlyRate" label="Preferred Rate (optional):" type="number" formatter="currency" step=".01" placeholder="Hourly Rate"
                                         onchange={updateInputChange}></lightning-input>
                                 </template>
