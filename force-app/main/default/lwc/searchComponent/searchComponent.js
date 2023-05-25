@@ -141,6 +141,13 @@ export default class SearchComponent extends LightningElement {
     selectedObjLabel = this.defaultObjLabel;
     selectedObjType = undefined;
 
+    get isContact() {
+        return this.selectedObjLabel == 'Contact';
+    }
+    get isLead() {
+        return this.selectedObjLabel == 'Lead';
+    }
+    
     // Active Credentials;
     credTypes;
     credsMap = {};
@@ -168,13 +175,13 @@ export default class SearchComponent extends LightningElement {
     // Therapist Status is a single select field,
     // the relationship between values is OR
     selectedTS = new Set([]);
-
+    
     connectedCallback() {
         this.updateCredential();
         this.updateProfession();
         this.updateTherapistStatus();
         this.setDefaultObjType();
-
+        
         let icons = this.iconName.split(':');
         this.ICON_URL = this.ICON_URL.replace('{0}', icons[0]);
         this.ICON_URL = this.ICON_URL.replace('{1}', icons[1]);
@@ -206,11 +213,29 @@ export default class SearchComponent extends LightningElement {
                 combinedFields.push(field.trim());
             }
         });
-
+        
         this.fields = combinedFields.concat(JSON.parse(JSON.stringify(this.fields)));
-
+        
+    }
+    
+    setDefaultTS(defaultTS = 'Active') {
+        const findTS = this.tStatuses.find(ts => ts.label == defaultTS);
+        if (findTS) {
+            findTS.checked = true;
+            this.selectedTS.add(findTS.value);
+            this.selectedTSLabel = findTS.label;
+        }
     }
 
+    setDefaultObjType(defaultOT = 'Contact') {
+        const findOT = this.objTypes.find(ts => ts.label == defaultOT);
+        if (findOT) {
+            findOT.checked = true;
+            this.selectedObjType = findOT;
+            this.selectedObjLabel = findOT.label;
+        }
+    }
+    
     updateProfession() {
         getAllProfession().then(result => {
             if (result.length > 0) {
@@ -246,24 +271,6 @@ export default class SearchComponent extends LightningElement {
                 this.setDefaultTS();
             }
         })
-    }
-
-    setDefaultTS(defaultTS = 'Active') {
-        const findTS = this.tStatuses.find(ts => ts.label == defaultTS);
-        if (findTS) {
-            findTS.checked = true;
-            this.selectedTS.add(findTS.value);
-            this.selectedTSLabel = findTS.label;
-        }
-    }
-
-    setDefaultObjType(defaultOT = 'Contact') {
-        const findOT = this.objTypes.find(ts => ts.label == defaultOT);
-        if (findOT) {
-            findOT.checked = true;
-            this.selectedObjType = findOT;
-            this.selectedObjLabel = findOT.label;
-        }
     }
 
     // Fetch all the active credentials
