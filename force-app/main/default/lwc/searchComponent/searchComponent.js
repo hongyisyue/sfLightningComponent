@@ -28,6 +28,7 @@ export default class SearchComponent extends LightningElement {
 
     // Fields and functions for lightning datatable
     contactDisplayFields = 'Name, Max_Hourly_Rate__c, Remaining_Hours_per_Week__c';
+    leadDisplayFields = 'Name, Preferred_Rate__c, Availability_Hours_per_Week__c';
     gridColumns = [
         {
             type: 'text',
@@ -147,7 +148,7 @@ export default class SearchComponent extends LightningElement {
     get isLead() {
         return this.selectedObjLabel == 'Lead';
     }
-    
+
     // Active Credentials;
     credTypes;
     credsMap = {};
@@ -175,13 +176,13 @@ export default class SearchComponent extends LightningElement {
     // Therapist Status is a single select field,
     // the relationship between values is OR
     selectedTS = new Set([]);
-    
+
     connectedCallback() {
         this.updateCredential();
         this.updateProfession();
         this.updateTherapistStatus();
         this.setDefaultObjType();
-        
+
         let icons = this.iconName.split(':');
         this.ICON_URL = this.ICON_URL.replace('{0}', icons[0]);
         this.ICON_URL = this.ICON_URL.replace('{1}', icons[1]);
@@ -213,11 +214,11 @@ export default class SearchComponent extends LightningElement {
                 combinedFields.push(field.trim());
             }
         });
-        
+
         this.fields = combinedFields.concat(JSON.parse(JSON.stringify(this.fields)));
-        
+
     }
-    
+
     setDefaultTS(defaultTS = 'Active') {
         const findTS = this.tStatuses.find(ts => ts.label == defaultTS);
         if (findTS) {
@@ -235,7 +236,7 @@ export default class SearchComponent extends LightningElement {
             this.selectedObjLabel = findOT.label;
         }
     }
-    
+
     updateProfession() {
         getAllProfession().then(result => {
             if (result.length > 0) {
@@ -470,17 +471,32 @@ export default class SearchComponent extends LightningElement {
         if (!this['searchHourlyRate']) {
             this['searchHourlyRate'] = 9999;
         }
-        const filterString =
-            'Remaining_Hours_per_Week__c >= ' + this['searchHour'].toString() +
-            ' AND Max_Hourly_Rate__c <= ' + this['searchHourlyRate'].toString() +
-            ' AND Profession__c = ' + this['selectedProf'].value +
-            ' AND Therapist_Status__c IN (' + TSString + ')' +
-            ' AND Active_Credentials__c INCLUDES(\'' + credentialString + '\')';
+
+        let filterString;
+        let displayFields;
+        if (this.isContact) {
+            filterString =
+                'Remaining_Hours_per_Week__c >= ' + this['searchHour'].toString() +
+                ' AND Max_Hourly_Rate__c <= ' + this['searchHourlyRate'].toString() +
+                ' AND Profession__c = ' + this['selectedProf'].value +
+                ' AND Therapist_Status__c IN (' + TSString + ')' +
+                ' AND Active_Credentials__c INCLUDES(\'' + credentialString + '\')';
+
+            displayFields = this.contactDisplayFields;
+        }
+        else if (this.isLead) {
+            filterString =
+                'Availability_Hours_per_Week__c >= ' + this['searchHour'].toString() +
+                ' AND Preferred_Rate__c <= ' + this['searchHourlyRate'].toString() +
+                ' AND Profession__c = ' + this['selectedProf'].value +
+                ' AND Credentials__c INCLUDES(\'' + credentialString + '\')';
+            displayFields = this.leadDisplayFields;
+        }
         console.log(filterString);
         // calling the search function from Apex class
         multiSearch({
             objectName: this.selectedObjLabel,
-            fields: this.contactDisplayFields,
+            fields: displayFields,
             filters: filterString
         })
             .then(result => {
