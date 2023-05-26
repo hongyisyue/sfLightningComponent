@@ -29,7 +29,7 @@ export default class SearchComponent extends LightningElement {
     // Fields and functions for lightning datatable
     contactDisplayFields = 'Name, Max_Hourly_Rate__c, Remaining_Hours_per_Week__c';
     leadDisplayFields = 'Name, Preferred_Rate__c, Availability_Hours_per_Week__c';
-    gridColumns = [
+    contactColumns = [
         {
             type: 'text',
             fieldName: 'Name',
@@ -53,6 +53,31 @@ export default class SearchComponent extends LightningElement {
             hideDefaultActions: true,
         }
     ];
+    leadColumns = [
+        {
+            type: 'text',
+            fieldName: 'Name',
+            label: 'Name',
+            hideDefaultActions: true
+        },
+        {
+            type: 'number',
+            fieldName: 'Preferred_Rate__c',
+            label: 'Preferred Hourly Rate (CAD)',
+            type: 'currency',
+            typeAttributes: { currencyCode: 'CAD', step: '0.001' },
+            sortable: true,
+            hideDefaultActions: true,
+        },
+        {
+            type: 'number',
+            fieldName: 'Availability_Hours_per_Week__c',
+            label: 'Weekly Available Hours',
+            sortable: true,
+            hideDefaultActions: true,
+        }
+    ];
+    gridColumns;
     gridData;
     defaultSortDirection = 'asc';
     sortDirection = 'asc';
@@ -483,6 +508,7 @@ export default class SearchComponent extends LightningElement {
                 ' AND Active_Credentials__c INCLUDES(\'' + credentialString + '\')';
 
             displayFields = this.contactDisplayFields;
+            this.gridColumns = this.contactColumns;
         }
         else if (this.isLead) {
             filterString =
@@ -491,6 +517,7 @@ export default class SearchComponent extends LightningElement {
                 ' AND Profession__c = ' + this['selectedProf'].value +
                 ' AND Credentials__c INCLUDES(\'' + credentialString + '\')';
             displayFields = this.leadDisplayFields;
+            this.gridColumns = this.leadColumns;
         }
         console.log(filterString);
         // calling the search function from Apex class
@@ -505,11 +532,6 @@ export default class SearchComponent extends LightningElement {
                 let stringResult = JSON.stringify(result);
                 let allResult = JSON.parse(stringResult);
                 allResult.forEach(record => {
-                    // record.FIELD1 = record['Name'];
-                    // record.FIELD2 = ('$' + record['Max_Hourly_Rate__c']).substring(0,7);
-                    // record.FIELD3 = record['Remaining_Hours_per_Week__c'] +'hr remain';
-                    // record.FIELD4 = record['Active_Credentials__c'];
-
                     record.Name = record['Name'];
                     record.Max_Hourly_Rate__c = record['Max_Hourly_Rate__c'];
                     record.Remaining_Hours_per_Week__c = record['Remaining_Hours_per_Week__c'];
