@@ -23,7 +23,8 @@ export default class SelectedRecord extends LightningElement {
         // 'Service_Requirements__c',
         'Therapist_Stage__c',
         'Placement_Stage__c',
-        'Total_Hours_of_Assignment_per_Week__c'
+        'Total_Hours_of_Assignment_per_Week__c',
+        'State_Province__c'
     ];
     placementData;
     placementCol = [
@@ -43,6 +44,12 @@ export default class SelectedRecord extends LightningElement {
             type: 'text',
             fieldName: 'Account_Name__c',
             label: 'Account',
+            hideDefaultActions: true
+        },
+        {
+            type: 'text',
+            fieldName: 'State_Province__c',
+            label: 'State',
             hideDefaultActions: true
         },
         {
