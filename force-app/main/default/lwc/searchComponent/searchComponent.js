@@ -164,14 +164,14 @@ export default class SearchComponent extends LightningElement {
         }
     ];
     defaultObjLabel = 'Select a Object type to search';
-    selectedObjLabel = this.defaultObjLabel;
+    selectedObjTypeLabel = this.defaultObjLabel;
     selectedObjType = undefined;
 
     get isContact() {
-        return this.selectedObjLabel == 'Contact';
+        return this.selectedObjTypeLabel == 'Contact';
     }
     get isLead() {
-        return this.selectedObjLabel == 'Lead';
+        return this.selectedObjTypeLabel == 'Lead';
     }
 
     // Active Credentials;
@@ -212,11 +212,11 @@ export default class SearchComponent extends LightningElement {
         this.ICON_URL = this.ICON_URL.replace('{0}', icons[0]);
         this.ICON_URL = this.ICON_URL.replace('{1}', icons[1]);
 
-        if (this.selectedObjLabel.includes('__c')) {
-            let obj = this.selectedObjLabel.substring(0, this.selectedObjLabel.length - 3);
+        if (this.selectedObjTypeLabel.includes('__c')) {
+            let obj = this.selectedObjTypeLabel.substring(0, this.selectedObjTypeLabel.length - 3);
             this.objectLabel = obj.replaceAll('_', ' ');
         } else {
-            this.objectLabel = this.selectedObjLabel;
+            this.objectLabel = this.selectedObjTypeLabel;
         }
 
         this.objectLabel = this.titleCase(this.objectLabel);
@@ -258,7 +258,7 @@ export default class SearchComponent extends LightningElement {
         if (findOT) {
             findOT.checked = true;
             this.selectedObjType = findOT;
-            this.selectedObjLabel = findOT.label;
+            this.selectedObjTypeLabel = findOT.label;
         }
     }
 
@@ -381,10 +381,10 @@ export default class SearchComponent extends LightningElement {
                 this.selectedObjType.checked = !this.selectedObjType.checked;
             }
             this.selectedObjType = objType;
-            this.selectedObjLabel = this.selectedObjType.label;
+            this.selectedObjTypeLabel = this.selectedObjType.label;
         } else {
             this.selectedObjType = undefined;
-            this.selectedObjLabel = this.defaultObjLabel;
+            this.selectedObjTypeLabel = this.defaultObjLabel;
         }
     }
 
@@ -522,7 +522,7 @@ export default class SearchComponent extends LightningElement {
         console.log(filterString);
         // calling the search function from Apex class
         multiSearch({
-            objectName: this.selectedObjLabel,
+            objectName: this.selectedObjTypeLabel,
             fields: displayFields,
             filters: filterString
         })
@@ -555,7 +555,7 @@ export default class SearchComponent extends LightningElement {
         this.delayTimeout = setTimeout(() => {
             //if(searchKey.length >= 2){
             search({
-                objectName: this.selectedObjLabel,
+                objectName: this.selectedObjTypeLabel,
                 fields: this.fields,
                 searchTerm: searchKey
             })
@@ -596,7 +596,7 @@ export default class SearchComponent extends LightningElement {
             if (this.selectedRow) {
                 console.log(this.selectedRow);
                 this.selectedRecordId = this.selectedRow['Id'];
-                this.selectedObjName = this.selectedObjLabel;
+                this.selectedObjName = this.selectedObjTypeLabel;
                 this.selectedDisplayFields = [
                     'Name',
                     'AccountId',
@@ -666,7 +666,7 @@ export default class SearchComponent extends LightningElement {
         getRecentlyCreatedRecord({
             recordId: recordId,
             fields: this.fields,
-            objectName: this.selectedObjLabel
+            objectName: this.selectedObjTypeLabel
         })
             .then(result => {
                 if (result) {

@@ -29,7 +29,7 @@
                                 <h2 id="modal-heading-01" class="slds-modal__title slds-hyphenate">Add New Record</h2>
                             </header>
                             <div class="slds-modal__content slds-p-around_medium" id="modal-content-id-1">
-                                <lightning-record-form object-api-name={selectedObjLabel} record-type-id={recordTypeId}
+                                <lightning-record-form object-api-name={selectedObjTypeLabel} record-type-id={recordTypeId}
                                     oncancel={handleCancel} fields={fieldsToCreate} onsuccess={handleSuccess} columns="2">
                                 </lightning-record-form>
                             </div>
@@ -121,7 +121,7 @@
                                     <lightning-button-menu
                                         onselect={handleObjTypeSelect}
                                         title="Search_Obj"
-                                        label={selectedObjLabel}
+                                        label={selectedObjTypeLabel}
                                     >
                                         <template for:each={objTypes} for:item="obj">
                                             <lightning-menu-item
