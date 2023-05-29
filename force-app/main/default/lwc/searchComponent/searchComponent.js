@@ -584,33 +584,6 @@ export default class SearchComponent extends LightningElement {
         }, DELAY);
     }
 
-    // TODO: refactor needed, try not to duplicate.
-    handleSelect(event) {
-        let recordId = event.currentTarget.dataset.recordId;
-        let selectRecord = this.multiSearchRecords.find((item) => {
-            return item.Id === recordId;
-        });
-        console.log(selectRecord);
-        this.selectedRecord = selectRecord;
-        this.selectedRecordId = null;
-        this.selectedObjName = null;
-        this.selectedDisplayFields = null;
-        if (selectRecord) {
-            this.selectedRecordId = selectRecord.Id;
-            console.log(this.selectedRecordId);
-            this.selectedObjName = this.selectedObjLabel;
-            console.log(this.selectedObjName);
-            this.selectedDisplayFields = [
-                'Name',
-                'AccountId',
-                'Email',
-                'Max_Hourly_Rate__c',
-                'Active_Credentials__c',
-                'Remaining_Hours_per_Week__c',
-            ];
-        }
-    }
-
     handleSelectRow(event) {
         // We only allow single row selection now
         const selectedRows = event.detail.selectedRows;
