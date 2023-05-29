@@ -27,8 +27,8 @@ export default class SearchComponent extends LightningElement {
     @track error;
 
     // Fields and functions for lightning datatable
-    contactDisplayFields = 'Name, Max_Hourly_Rate__c, Remaining_Hours_per_Week__c';
-    leadDisplayFields = 'Name, Preferred_Rate__c, Availability_Hours_per_Week__c';
+    contactDisplayFields = 'Name, Max_Hourly_Rate__c, Remaining_Hours_per_Week__c, Interview_Score__c, Preferred_Rate__c';
+    leadDisplayFields = 'Name, Preferred_Rate__c, Availability_Hours_per_Week__c, Interview_Score__c';
     contactColumns = [
         {
             type: 'text',
@@ -37,9 +37,8 @@ export default class SearchComponent extends LightningElement {
             hideDefaultActions: true
         },
         {
-            type: 'number',
             fieldName: 'Max_Hourly_Rate__c',
-            label: 'Hourly Rate (CAD)',
+            label: 'Max Hourly Rate (CAD)',
             type: 'currency',
             typeAttributes: { currencyCode: 'CAD', step: '0.001' },
             sortable: true,
@@ -49,6 +48,21 @@ export default class SearchComponent extends LightningElement {
             type: 'number',
             fieldName: 'Remaining_Hours_per_Week__c',
             label: 'Remaining Hours per Week',
+            sortable: true,
+            hideDefaultActions: true,
+        },
+        {
+            type: 'number',
+            fieldName: 'Interview_Score__c',
+            label: 'Interview Score',
+            sortable: true,
+            hideDefaultActions: true,
+        },
+        {
+            type: 'currency',
+            fieldName: 'Preferred_Rate__c',
+            label: 'Preferred Hourly Rate (CAD)',
+            typeAttributes: { currencyCode: 'CAD', step: '0.001' },
             sortable: true,
             hideDefaultActions: true,
         }
@@ -61,7 +75,6 @@ export default class SearchComponent extends LightningElement {
             hideDefaultActions: true
         },
         {
-            type: 'number',
             fieldName: 'Preferred_Rate__c',
             label: 'Preferred Hourly Rate (CAD)',
             type: 'currency',
@@ -73,6 +86,13 @@ export default class SearchComponent extends LightningElement {
             type: 'number',
             fieldName: 'Availability_Hours_per_Week__c',
             label: 'Weekly Available Hours',
+            sortable: true,
+            hideDefaultActions: true,
+        },
+        {
+            type: 'number',
+            fieldName: 'Interview_Score__c',
+            label: 'Interview Score',
             sortable: true,
             hideDefaultActions: true,
         }
