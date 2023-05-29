@@ -149,6 +149,8 @@ export default class SelectedRecord extends LightningElement {
                         p.Id = 'https://tinyeyetech.lightning.force.com/lightning/r/Placement__c/' + p['Id'] + '/view';
                         p.Service_Requirements__c = 'https://tinyeyetech.lightning.force.com/lightning/r/Service_Requirements__c/' + p['Service_Requirements__c'] + '/view';
                     });
+
+                    allResult.sort((a,b) => b['School_Year__c'] - a['School_Year__c']);
                     this.placementData = allResult;
                 }
             }
