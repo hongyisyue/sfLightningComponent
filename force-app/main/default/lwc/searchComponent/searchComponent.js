@@ -111,15 +111,28 @@ export default class SearchComponent extends LightningElement {
 
     // Fields for current selected Record
     selectedRecordId;
-    selectedObjName;
-    selectedDisplayFields =
-        [
-            'Name',
-            'Annual_SPED_Budget__c',
-            'CurrencyIsoCode',
-            'School_Year__c',
-            'CloseDate'
-        ];
+    selectedDisplayFields;
+    contactDetailFields = [
+        'Name',
+        'AccountId',
+        'Therapist_Status__c',
+        'Profession__c',
+        'Email',
+        'Max_Hourly_Rate__c',
+        'Active_Credentials__c',
+        'Total_Hours_Available_Per_Week__c',
+        'Remaining_Hours_per_Week__c',
+    ];
+
+    leadDetailFields = [
+        'Name',
+        'Status',
+        'Profession__c',
+        'Email',
+        'Preferred_Rate__c',
+        'Credentials__c',
+        'Availability_Hours_per_Week__c'
+    ];
 
     // Fields for multi-field search
     searchHour;
@@ -591,23 +604,16 @@ export default class SearchComponent extends LightningElement {
             const row = selectedRows[0];
             this.selectedRow = row;
             this.selectedRecordId = null;
-            this.selectedObjName = null;
             this.selectedDisplayFields = null;
             if (this.selectedRow) {
                 console.log(this.selectedRow);
                 this.selectedRecordId = this.selectedRow['Id'];
-                this.selectedObjName = this.selectedObjTypeLabel;
-                this.selectedDisplayFields = [
-                    'Name',
-                    'AccountId',
-                    'Therapist_Status__c',
-                    'Profession__c',
-                    'Email',
-                    'Max_Hourly_Rate__c',
-                    'Active_Credentials__c',
-                    'Total_Hours_Available_Per_Week__c',
-                    'Remaining_Hours_per_Week__c',
-                ];
+                if (this.isContact) {
+                    this.selectedDisplayFields = this.contactDetailFields;
+                }
+                else if (this.isLead) {
+                    this.selectedDisplayFields = this.leadDetailFields;
+                }
             }
 
         }
