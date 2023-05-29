@@ -419,6 +419,8 @@ export default class SearchComponent extends LightningElement {
             this.selectedObjType = undefined;
             this.selectedObjTypeLabel = this.defaultObjLabel;
         }
+        this.gridData = undefined;
+        this.selectedRow = undefined;
     }
 
     handleCredSelect(event) {
