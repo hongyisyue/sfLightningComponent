@@ -22,7 +22,8 @@ export default class SelectedRecord extends LightningElement {
         'Placement_Status__c',
         // 'Service_Requirements__c',
         'Therapist_Stage__c',
-        'Placement_Stage__c'
+        'Placement_Stage__c',
+        'Total_Hours_of_Assignment_per_Week__c'
     ];
     placementData;
     placementCol = [
@@ -72,7 +73,14 @@ export default class SelectedRecord extends LightningElement {
             label: 'Therapist Stage',
             hideDefaultActions: true,
             initialWidth: 120
-        }
+        },
+        {
+            type: 'number',
+            fieldName: 'Total_Hours_of_Assignment_per_Week__c',
+            label: 'HPW',
+            hideDefaultActions: true,
+            innerWidth: 60
+        },
         // {
         //     type: 'url',
         //     fieldName: 'Service_Requirements__c',
