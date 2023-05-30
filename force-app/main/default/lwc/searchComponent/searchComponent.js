@@ -527,6 +527,14 @@ export default class SearchComponent extends LightningElement {
         }
         TSString = TSString.substring(0, TSString.length - 1);
 
+        // Handle profession SOQL
+        let profsString = '';
+        const profI = this.selectedProfs.values();
+        for (const prof of profI) {
+            profsString = profsString + prof + ',';
+        }
+        profsString = profsString.substring(0, profsString.length - 1);
+
         // Handle search hour SOQL
         if (!this['searchHour']) {
             this['searchHour'] = -1;
@@ -543,7 +551,7 @@ export default class SearchComponent extends LightningElement {
             filterString =
                 'Remaining_Hours_per_Week__c >= ' + this['searchHour'].toString() +
                 ' AND Max_Hourly_Rate__c <= ' + this['searchHourlyRate'].toString() +
-                ' AND Profession__c = ' + this['selectedProfs'].value +
+                ' AND Profession__c IN (' + profsString + ')' +
                 ' AND Therapist_Status__c IN (' + TSString + ')' +
                 ' AND Active_Credentials__c INCLUDES(\'' + credentialString + '\')';
 
@@ -554,7 +562,7 @@ export default class SearchComponent extends LightningElement {
             filterString =
                 'Availability_Hours_per_Week__c >= ' + this['searchHour'].toString() +
                 ' AND Preferred_Rate__c <= ' + this['searchHourlyRate'].toString() +
-                ' AND Profession__c = ' + this['selectedProfs'].value +
+                ' AND Profession__c IN (' + profsString + ')' +
                 ' AND Credentials__c INCLUDES(\'' + credentialString + '\')';
             displayFields = this.leadDisplayFields;
             this.gridColumns = this.leadColumns;
