@@ -221,10 +221,10 @@ export default class SearchComponent extends LightningElement {
     // Active Professions
     // What thje html uses
     profs; // type: {label: String, value: String, checked: Boolean}[]
-    defaultProfLabel = 'Select a Profession';
+    defaultProfLabel = 'Select one or more Profession(s)';
     selectedProfLabel = this.defaultProfLabel;
     // Profession is a single select field
-    selectedProf;
+    selectedProfs = new Set([]);
 
     // Active Therpist Status
     // What thje html uses
@@ -481,17 +481,22 @@ export default class SearchComponent extends LightningElement {
             return item.value === selected;
         });
 
-        // this.selectedProf.checked = !this.selectedProf.checked;
         menuItem.checked = !menuItem.checked;
-
+        
+        // Handle selected profession set
         if (menuItem.checked) {
-            if (this.selectedProf) {
-                this.selectedProf.checked = !this.selectedProf.checked;
-            }
-            this.selectedProf = menuItem;
-            this.selectedProfLabel = this.selectedProf.label;
+            this.selectedProfs.add(menuItem.value);
         } else {
-            this.selectedProf = undefined;
+            this.selectedProfs.delete(menuItem.value);
+        }
+
+        // Handle display text
+        if (this.selectedProfs.size == 1) {
+            const i = this.selectedProfs.values();
+            this.selectedProfLabel = i.next().value;
+        } else if (this.selectedProfs.size > 1) {
+            this.selectedProfLabel = this.selectedProfs.size.toString() + ' selected';
+        } else {
             this.selectedProfLabel = this.defaultProfLabel;
         }
     }
@@ -538,7 +543,7 @@ export default class SearchComponent extends LightningElement {
             filterString =
                 'Remaining_Hours_per_Week__c >= ' + this['searchHour'].toString() +
                 ' AND Max_Hourly_Rate__c <= ' + this['searchHourlyRate'].toString() +
-                ' AND Profession__c = ' + this['selectedProf'].value +
+                ' AND Profession__c = ' + this['selectedProfs'].value +
                 ' AND Therapist_Status__c IN (' + TSString + ')' +
                 ' AND Active_Credentials__c INCLUDES(\'' + credentialString + '\')';
 
@@ -549,7 +554,7 @@ export default class SearchComponent extends LightningElement {
             filterString =
                 'Availability_Hours_per_Week__c >= ' + this['searchHour'].toString() +
                 ' AND Preferred_Rate__c <= ' + this['searchHourlyRate'].toString() +
-                ' AND Profession__c = ' + this['selectedProf'].value +
+                ' AND Profession__c = ' + this['selectedProfs'].value +
                 ' AND Credentials__c INCLUDES(\'' + credentialString + '\')';
             displayFields = this.leadDisplayFields;
             this.gridColumns = this.leadColumns;
