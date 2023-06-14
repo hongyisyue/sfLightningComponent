@@ -37,10 +37,9 @@ export default class SearchComponent extends LightningElement {
             hideDefaultActions: true
         },
         {
-            fieldName: 'Max_Hourly_Rate__c',
-            label: 'Max Hourly Rate (CAD)',
-            type: 'currency',
-            typeAttributes: { currencyCode: 'CAD', step: '0.001' },
+            type: 'number',
+            fieldName: 'Interview_Score__c',
+            label: 'Interview Score',
             sortable: true,
             hideDefaultActions: true,
         },
@@ -52,9 +51,10 @@ export default class SearchComponent extends LightningElement {
             hideDefaultActions: true,
         },
         {
-            type: 'number',
-            fieldName: 'Interview_Score__c',
-            label: 'Interview Score',
+            fieldName: 'Max_Hourly_Rate__c',
+            label: 'Max Hourly Rate (CAD)',
+            type: 'currency',
+            typeAttributes: { currencyCode: 'CAD', step: '0.001' },
             sortable: true,
             hideDefaultActions: true,
         },
@@ -75,10 +75,9 @@ export default class SearchComponent extends LightningElement {
             hideDefaultActions: true
         },
         {
-            fieldName: 'Preferred_Rate__c',
-            label: 'Preferred Hourly Rate (CAD)',
-            type: 'currency',
-            typeAttributes: { currencyCode: 'CAD', step: '0.001' },
+            type: 'number',
+            fieldName: 'Interview_Score__c',
+            label: 'Interview Score',
             sortable: true,
             hideDefaultActions: true,
         },
@@ -90,12 +89,13 @@ export default class SearchComponent extends LightningElement {
             hideDefaultActions: true,
         },
         {
-            type: 'number',
-            fieldName: 'Interview_Score__c',
-            label: 'Interview Score',
+            fieldName: 'Preferred_Rate__c',
+            label: 'Preferred Hourly Rate (CAD)',
+            type: 'currency',
+            typeAttributes: { currencyCode: 'CAD', step: '0.001' },
             sortable: true,
             hideDefaultActions: true,
-        }
+        },
     ];
     gridColumns;
     gridData;
@@ -229,7 +229,7 @@ export default class SearchComponent extends LightningElement {
     // Active Therpist Status
     // What thje html uses
     tStatuses; // type: {label: String, value: String, checked: Boolean}[]
-    defaultTSLabel = 'Select a Therapist Status';
+    defaultTSLabel = 'Select one or more Therapist Status';
     selectedTSLabel = this.defaultTSLabel;
     // Therapist Status is a single select field,
     // the relationship between values is OR
