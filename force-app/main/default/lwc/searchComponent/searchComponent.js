@@ -482,7 +482,7 @@ export default class SearchComponent extends LightningElement {
         });
 
         menuItem.checked = !menuItem.checked;
-        
+
         // Handle selected profession set
         if (menuItem.checked) {
             this.selectedProfs.add(menuItem.value);
@@ -535,35 +535,44 @@ export default class SearchComponent extends LightningElement {
         }
         profsString = profsString.substring(0, profsString.length - 1);
 
-        // Handle search hour SOQL
-        if (!this['searchHour']) {
-            this['searchHour'] = -1;
-        }
-
-        // Handle hourly rate SOQL
-        if (!this['searchHourlyRate']) {
-            this['searchHourlyRate'] = 9999;
-        }
-
+        // Handle search hour SOQL and hourly rate SOQL
+        let searchHrString = '';
+        let searchHrRateString = '';
+        
         let filterString;
         let displayFields;
         if (this.isContact) {
+            if (this['searchHour']) {
+                searchHrString = ' AND Remaining_Hours_per_Week__c >= ' + this['searchHour'].toString();
+            }
+            if (this['searchHourlyRate']) {
+                searchHrRateString = ' AND Max_Hourly_Rate__c <= ' + this['searchHourlyRate'].toString();
+            }
+
             filterString =
-                'Remaining_Hours_per_Week__c >= ' + this['searchHour'].toString() +
-                ' AND Max_Hourly_Rate__c <= ' + this['searchHourlyRate'].toString() +
-                ' AND Profession__c IN (' + profsString + ')' +
+                'Profession__c IN (' + profsString + ')' +
                 ' AND Therapist_Status__c IN (' + TSString + ')' +
-                ' AND Active_Credentials__c INCLUDES(\'' + credentialString + '\')';
+                ' AND Active_Credentials__c INCLUDES(\'' + credentialString + '\')' +
+                searchHrString +
+                searchHrRateString;
 
             displayFields = this.contactDisplayFields;
             this.gridColumns = this.contactColumns;
         }
         else if (this.isLead) {
+            if (this['searchHour']) {
+                searchHrString = ' AND Availability_Hours_per_Week__c >= ' + this['searchHour'].toString();
+            }
+            if (this['searchHourlyRate']) {
+                searchHrRateString = ' AND Preferred_Rate__c <= ' + this['searchHourlyRate'].toString();
+            }
+
             filterString =
-                'Availability_Hours_per_Week__c >= ' + this['searchHour'].toString() +
-                ' AND Preferred_Rate__c <= ' + this['searchHourlyRate'].toString() +
-                ' AND Profession__c IN (' + profsString + ')' +
-                ' AND Credentials__c INCLUDES(\'' + credentialString + '\')';
+                'Profession__c IN (' + profsString + ')' +
+                ' AND Credentials__c INCLUDES(\'' + credentialString + '\')' +
+                searchHrString +
+                searchHrRateString;
+
             displayFields = this.leadDisplayFields;
             this.gridColumns = this.leadColumns;
         }
