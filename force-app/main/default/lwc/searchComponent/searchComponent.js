@@ -628,12 +628,31 @@ export default class SearchComponent extends LightningElement {
             if (this['searchHourlyRate']) {
                 searchHrRateString = ' AND Preferred_Rate__c <= ' + this['searchHourlyRate'].toString();
             }
+            
+            let LSString = '';
+            if(this.selectedLS) {
+                // Handle therapist status SOQL
+                const LSI = this.selectedLS.values();
+                for (const ls of LSI) {
+                    LSString = LSString + ls + ',';
+                }
+                LSString = LSString.substring(0, LSString.length - 1);
+            }
 
-            filterString =
-                'Profession__c IN (' + profsString + ')' +
-                ' AND Credentials__c INCLUDES(\'' + credentialString + '\')' +
-                searchHrString +
-                searchHrRateString;
+            if (LSString.length > 0) {
+                filterString =
+                    'Profession__c IN (' + profsString + ')' +
+                    ' AND Status IN (' + LSString + ')' +
+                    ' AND Credentials__c INCLUDES(\'' + credentialString + '\')' +
+                    searchHrString +
+                    searchHrRateString;
+            } else {
+                filterString =
+                    'Profession__c IN (' + profsString + ')' +
+                    ' AND Credentials__c INCLUDES(\'' + credentialString + '\')' +
+                    searchHrString +
+                    searchHrRateString;
+            }
 
             displayFields = this.leadDisplayFields;
             this.gridColumns = this.leadColumns;
