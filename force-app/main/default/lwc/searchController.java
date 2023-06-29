@@ -80,6 +80,17 @@ public class SearchController {
     }
 
     @AuraEnabled
+    public static List<String> getAllLeadStatus(){
+        Schema.DescribeFieldResult F = Lead.Status.getDescribe();
+        List<Schema.PicklistEntry> P = F.getPicklistValues();
+        List<String> picklistValues = new List<String>();
+        for(Schema.PicklistEntry pickValue: p) {
+            picklistValues.add(pickValue.getValue());
+        }
+        return picklistValues;
+    }
+
+    @AuraEnabled
     public static List<sObject> getContactPlacement(List<String> fields, String Id){
         List<sObject> results;
         String placementFields = String.join(fields,',');

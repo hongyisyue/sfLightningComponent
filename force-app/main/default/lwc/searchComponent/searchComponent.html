@@ -153,6 +153,26 @@
                                         onchange={updateInputChange}></lightning-input>
                                     <lightning-input name="searchHourlyRate" label="Preferred Rate (optional):" type="number" formatter="currency" step=".01" placeholder="Hourly Rate"
                                         onchange={updateInputChange}></lightning-input>
+                                    <div style="margin-top: 10px;">
+                                        <span style="color: red;">*</span>
+                                        Lead Status:
+                                    </div>
+                                    <lightning-button-menu
+                                        onselect={handleLSSelect}
+                                        title="Search_LS"
+                                        label={selectedLSLabel}
+                                        class="slds-dropdown-trigger slds-dropdown-trigger_click slds-is-open"
+                                    >
+                                        <template for:each={lStatuses} for:item="ls">
+                                            <lightning-menu-item
+                                                label={ls.label}
+                                                value={ls.value}
+                                                key={ls.value}
+                                                checked={ls.checked}
+                                            >
+                                            </lightning-menu-item>
+                                        </template>
+                                    </lightning-button-menu>
                                 </template>
                                 <!---->
 

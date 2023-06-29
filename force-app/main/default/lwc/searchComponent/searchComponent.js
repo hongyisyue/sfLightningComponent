@@ -5,6 +5,8 @@ import getAllActiveCredential from '@salesforce/apex/SearchController.getAllActi
 import getRecentlyCreatedRecord from '@salesforce/apex/SearchController.getRecentlyCreatedRecord';
 import getAllProfession from '@salesforce/apex/SearchController.getAllProfession';
 import getAllTherapistStatus from '@salesforce/apex/SearchController.getAllTherapistStatus';
+import getAllLeadStatus from '@salesforce/apex/SearchController.getAllLeadStatus';
+
 const DELAY = 10;
 
 export default class SearchComponent extends LightningElement {
@@ -241,10 +243,20 @@ export default class SearchComponent extends LightningElement {
     // the relationship between values is OR
     selectedTS = new Set([]);
 
+    // Active Lead Status
+    // What thje html uses
+    lStatuses; // type: {label: String, value: String, checked: Boolean}[]
+    defaultLSLabel = 'Select one or more Lead Status';
+    selectedLSLabel = this.defaultLSLabel;
+    // Lead Status is a single select field,
+    // the relationship between values is OR
+    selectedLS = new Set([]);
+
     connectedCallback() {
         this.updateCredential();
         this.updateProfession();
         this.updateTherapistStatus();
+        this.updateLeadStatus();
         this.setDefaultObjType();
 
         let icons = this.iconName.split(':');
@@ -334,6 +346,24 @@ export default class SearchComponent extends LightningElement {
 
                 this.tStatuses = allResults;
                 this.setDefaultTS();
+            }
+        })
+    }
+
+    updateLeadStatus() {
+        getAllLeadStatus().then(result => {
+            if (result.length > 0) {
+                const allResults = [];
+                for (const lStatus of result) {
+                    const ls = {
+                        label: lStatus,
+                        value: '\'' + lStatus + '\'',
+                        checked: false
+                    };
+                    allResults.push(ls);
+                }
+
+                this.lStatuses = allResults;
             }
         })
     }
@@ -478,6 +508,32 @@ export default class SearchComponent extends LightningElement {
             this.selectedTSLabel = this.selectedTS.size.toString() + ' selected';
         } else {
             this.selectedTSLabel = this.defaultTSLabel;
+        }
+    }
+
+    handleLSSelect(event) {
+        const selected = event.detail.value;
+        const menuItem = this.lStatuses.find(function (item) {
+            return item.value === selected;
+        });
+        menuItem.checked = !menuItem.checked;
+
+        // Handle selected therapy status set
+        if (menuItem.checked) {
+            this.selectedLS.add(menuItem.value);
+        } else {
+            this.selectedLS.delete(menuItem.value);
+        }
+
+        // Handle display text
+        if (this.selectedLS.size == 1) {
+            const i = this.selectedLS.values();
+            this.selectedLSLabel = i.next().value;
+
+        } else if (this.selectedLS.size > 1) {
+            this.selectedLSLabel = this.selectedLS.size.toString() + ' selected';
+        } else {
+            this.selectedLSLabel = this.defaultLSLabel;
         }
     }
 
