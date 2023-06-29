@@ -28,7 +28,7 @@ export default class SearchComponent extends LightningElement {
 
     // Fields and functions for lightning datatable
     contactDisplayFields = 'Name, Max_Hourly_Rate__c, Remaining_Hours_per_Week__c, Interview_Score__c, Preferred_Rate__c';
-    leadDisplayFields = 'Name, Preferred_Rate__c, Availability_Hours_per_Week__c, Interview_Score__c';
+    leadDisplayFields = 'Name, Preferred_Rate__c, Availability_Hours_per_Week__c, Interview_Score__c, Status';
     contactColumns = [
         {
             type: 'text',
@@ -72,6 +72,12 @@ export default class SearchComponent extends LightningElement {
             type: 'text',
             fieldName: 'Name',
             label: 'Name',
+            hideDefaultActions: true
+        },
+        {
+            type: 'text',
+            fieldName: 'Status',
+            label: 'Status',
             hideDefaultActions: true
         },
         {
