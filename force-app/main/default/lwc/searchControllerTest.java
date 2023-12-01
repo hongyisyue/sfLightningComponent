@@ -2,6 +2,13 @@
 public with sharing class SearchControllerTest {
 
     @IsTest
+    public static void getCredentialTest(){
+        Test.startTest();
+        SearchController.getAllCredential();
+        Test.stopTest();
+    }
+
+    @IsTest
     public static void getProfessionTest(){
         Test.startTest();
         SearchController.getAllProfession();

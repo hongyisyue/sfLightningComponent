@@ -2,6 +2,7 @@ import { LightningElement, api, track } from 'lwc';
 import search from '@salesforce/apex/SearchController.search';
 import multiSearch from '@salesforce/apex/SearchController.multiSearch';
 import getAllActiveCredential from '@salesforce/apex/SearchController.getAllActiveCredential';
+import getAllCredential from '@salesforce/apex/SearchController.getAllCredential';
 import getRecentlyCreatedRecord from '@salesforce/apex/SearchController.getRecentlyCreatedRecord';
 import getAllProfession from '@salesforce/apex/SearchController.getAllProfession';
 import getAllTherapistStatus from '@salesforce/apex/SearchController.getAllTherapistStatus';
@@ -217,7 +218,7 @@ export default class SearchComponent extends LightningElement {
 
     // Active Credentials;
     credTypes;
-    credsMap = {};
+    // credsMap = {}; // Removed on 11-30-2023, as we now fetch the values from global picklist
     // What the html uses
     creds; // type: {label: String, value: String, checked: Boolean}[]
     defaultCredLabel = 'Select one or more Credential(s)';
@@ -374,60 +375,23 @@ export default class SearchComponent extends LightningElement {
         let filteredCreds = [];
         this.credTypes = new Set();
 
-        getAllActiveCredential().then(result => {
+        getAllCredential().then(result => {
+            // the return result would contain the name(string) of the credential
             console.log(result);
             let stringResult = JSON.stringify(result);
             let allResult = JSON.parse(stringResult);
             allResult.forEach(record => {
-                record.label = record['Credential_Name__c'];
-                record.type = record['Credential_Type__c'];
-
-                if (!countSet.has(record.label)) {
-                    filteredCreds.push(record);
-                    countSet.add(record.label);
-                }
-            });
-
-            filteredCreds.forEach(record => {
-                if (this.credTypes.has(record.type)) {
-                    this.credsMap[record.type].push(record);
-                } else {
-                    this.credTypes.add(record.type);
-                    this.credsMap[record.type] = [record];
-                }
-            });
-            // this.creds.sort((a,b) => a.label.localeCompare(b.label));
-
-            filteredCreds = [];
-            for (const key in this.credsMap) {
-                filteredCreds.push({
-                    label: key,
-                    isSubheader: true
-                });
-                if (this.credsMap[key] && this.credsMap[key].length > 0) {
-                    this.credsMap[key].sort((a, b) => {
-                        const nameA = a.label.toUpperCase(); // ignore upper and lowercase
-                        const nameB = b.label.toUpperCase(); // ignore upper and lowercase
-                        if (nameA < nameB) {
-                            return -1;
-                        }
-                        if (nameA > nameB) {
-                            return 1;
-                        }
-
-                        // names must be equal
-                        return 0;
+                if (!record.includes('FL Level II') && record.length > 0) {
+                    // Exclude this type of credentials as requested by Will
+                    filteredCreds.push({
+                        label: record,
+                        value: record,
+                        isSubheader: false,
+                        // isSubheader is unused now as we can't grab the type from global picklist
+                        checked: false
                     });
-                    for (const cred of this.credsMap[key]) {
-                        filteredCreds.push({
-                            label: cred.label,
-                            value: cred.label,
-                            isSubheader: false,
-                            checked: false
-                        });
-                    }
                 }
-            }
+            });
             this.creds = filteredCreds;
         })
             .catch(error => {
